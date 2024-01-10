@@ -2,7 +2,7 @@
 import { StyleSheet } from 'react-native';
 import { themeColors } from '../theme'; // Make sure to import themeColors
 
-export const welcomeStyle = StyleSheet.create({
+export const WelcomeStyle = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -61,4 +61,4 @@ export const welcomeStyle = StyleSheet.create({
   // Add other styles as needed
 });
 
-export default welcomeStyle;
+export default WelcomeStyle;

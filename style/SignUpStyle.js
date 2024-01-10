@@ -9,12 +9,12 @@ export const signUpStyles = StyleSheet.create({
   },
   titleContainer: {
     alignItems: 'center',
+    padding: 10,
   },
   title: {
     color: 'white',
     fontSize: 48,
     fontWeight: 'bold',
-
   },
   header: {
     flexDirection: 'row',
@@ -29,22 +29,21 @@ export const signUpStyles = StyleSheet.create({
     marginVertical: 8,
   },
   inputLabel: {
-    color: 'gray',
+    color: '#7C4DD7',
     marginLeft: 4,
   },
   textInput: {
-    padding: 4,
-    backgroundColor: '#f0f0f0',
-    color: 'gray',
+    paddingStart: 16,
+    backgroundColor: '#CEE3F3',
+    color: 'black',
     borderRadius: 20,
     marginBottom: 3,
     height: 40,
   },
   signUpButton: {
-    paddingVertical: 16,
-    backgroundColor: '#FFD700',
+    paddingVertical: 12,
+    backgroundColor: '#F04B27',
     borderRadius: 20,
-    flex: 1,  // เพิ่ม flex
   },
   contentContainer: {
     flex: 1,
@@ -57,7 +56,7 @@ export const signUpStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: 'gray',
+    color: 'white',
   },
   text: {
     fontSize: 20,

@@ -13,7 +13,7 @@ export default function SignUpScreen() {
       <SafeAreaView>
         <View>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ArrowLeftIcon size={20} color="white " />
+            <ArrowLeftIcon size={20} color="white"/>
           </TouchableOpacity>
         </View>
         <View style={signUpStyles.titleContainer}>
@@ -86,7 +86,7 @@ export default function SignUpScreen() {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{paddingBottom: 50}}>
+          <View style={{paddingBottom: 30}}>
             <TouchableOpacity style={signUpStyles.signUpButton}>
               <Text style={signUpStyles.signUpButtonText}>
                 Sign Up

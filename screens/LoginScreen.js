@@ -13,9 +13,9 @@ export default function SignUpScreen() {
     <View style={loginStyles.container}>
       <SafeAreaView>
         <View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          {/* <TouchableOpacity onPress={() => navigation.goBack()}>
             <ArrowLeftIcon size={20} color="white" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={loginStyles.titleContainer}>
           <Text style={loginStyles.title}>Log in</Text>

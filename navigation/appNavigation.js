@@ -1,24 +1,57 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+// AppNavigation.js
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import CustomHeader from './CustomHeader';
 
 const Stack = createNativeStackNavigator();
 
-
-export default function AppNavigation() {
+const AppNavigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Welcome'>
-        <Stack.Screen name="Home" options={{headerShown: false}} component={HomeScreen} />
-        <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen} />
-        <Stack.Screen name="Login" options={{headerShown: false}} component={LoginScreen} />
-        <Stack.Screen name="SignUp" options={{headerShown: false}} component={SignUpScreen} />
+      <Stack.Navigator
+        initialRouteName='Welcome'
+        screenOptions={({ route }) => ({
+          header: ({ scene }) => {
+            const { name } = route;
+            // Show custom header for "SignUp" screen
+            // if (name === 'SignUp') {
+            //   return <CustomHeader title={name} />;
+            // }
+
+            // Hide title for "Login" screen
+            if (name === 'Login' || 'SignUp') {
+              return <CustomHeader title="" />;
+            }
+
+            // Default behavior for other screens
+            return <CustomHeader title={name} />;
+          },
+          
+          headerShown: true,
+        })}
+      >
+        <Stack.Screen
+          name="Welcome"
+          options={{ headerShown: false }}
+          component={WelcomeScreen}
+        />
+        <Stack.Screen
+          name="Login"
+          options={{ headerShown: true }}
+          component={LoginScreen}
+        />
+        <Stack.Screen
+          name="SignUp"
+          options={{ title: 'Sign Up' }}
+          component={SignUpScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
-  )
-}
+  );
+};
+
+export default AppNavigation;

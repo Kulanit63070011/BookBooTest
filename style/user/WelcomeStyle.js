@@ -1,6 +1,6 @@
 // WelcomeStyle.js
 import { StyleSheet } from 'react-native';
-import { themeColors } from '../theme'; // Make sure to import themeColors
+import { themeColors } from '../../theme'; // Make sure to import themeColors
 
 export const WelcomeStyle = StyleSheet.create({
   container: {

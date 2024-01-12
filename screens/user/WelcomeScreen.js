@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { themeColors } from '../theme';
+import { themeColors } from '../../theme';
 import { useNavigation } from '@react-navigation/native';
-import WelcomeStyle from '../style/WelcomeStyle';
+import WelcomeStyle from '../../style/user/WelcomeStyle';
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ export default function WelcomeScreen() {
           <Text style={WelcomeStyle.title}>Boo</Text>
         </View>
         <View style={WelcomeStyle.imageContainer}>
-          <Image source={require("../assets/images/signup.png")} style={WelcomeStyle.image} />
+          <Image source={require("../../assets/images/signup.png")} style={WelcomeStyle.image} />
         </View>
         <View style={WelcomeStyle.buttonContainer}>
           <TouchableOpacity

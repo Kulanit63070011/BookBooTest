@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: 'row',
         backgroundColor: '#7743DB',
+        bottom: 0, left: 0, right: 0, zIndex: 1
     },
     navItem: {
         flex: 1,

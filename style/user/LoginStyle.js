@@ -1,8 +1,8 @@
-// SignUpStyle.js
+// LoginStyle.js
 import { StyleSheet } from 'react-native';
-import { themeColors } from '../theme';
+import { themeColors } from '../../theme';
 
-export const signUpStyles = StyleSheet.create({
+export const loginStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: themeColors.bg,
@@ -24,6 +24,13 @@ export const signUpStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 30,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+  },
   inputContainer: {
     flexDirection: 'column',
     marginVertical: 8,
@@ -38,19 +45,12 @@ export const signUpStyles = StyleSheet.create({
     color: 'black',
     borderRadius: 20,
     marginBottom: 3,
-    height: 40,
+    height: 60,
   },
   signUpButton: {
     paddingVertical: 12,
     backgroundColor: '#F04B27',
     borderRadius: 20,
-  },
-  contentContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    padding: 30,
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
   },
   signUpButtonText: {
     fontSize: 20,
@@ -79,13 +79,6 @@ export const signUpStyles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  profileImage: {
-    width: 90,
-    height: 90,
-    alignSelf:'center',
-    borderRadius: 50,
-    overflow: 'hidden',
-  },
   loginLinkContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -100,4 +93,3 @@ export const signUpStyles = StyleSheet.create({
     color: '#FFD700',
   },
 });
-

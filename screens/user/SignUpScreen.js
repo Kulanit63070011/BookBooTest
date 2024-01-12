@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native'
 import React from 'react'
-import { themeColors } from '../theme'
+import { themeColors } from '../../theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
-import { signUpStyles } from '../style/SignUpStyle';
+import { signUpStyles } from '../../style/user/SignUpStyle';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -17,7 +17,7 @@ export default function SignUpScreen() {
       </SafeAreaView>
       <ScrollView style={signUpStyles.contentContainer}>
         <TouchableOpacity>
-          <Image source={require('../assets/images/human.png')} style={signUpStyles.profileImage} />
+          <Image source={require('../../assets/images/human.png')} style={signUpStyles.profileImage} />
         </TouchableOpacity>
         <View style={signUpStyles.inputContainer}>
           <View style={{ marginBottom: 20 }}>
@@ -73,11 +73,11 @@ export default function SignUpScreen() {
           </View>
           <View style={[signUpStyles.socialButtonContainer, { marginBottom: 20 }]}>
             <TouchableOpacity style={signUpStyles.socialButton}>
-              <Image source={require('../assets/icons/google.png')} style={signUpStyles.socialButtonImage} />
+              <Image source={require('../../assets/icons/google.png')} style={signUpStyles.socialButtonImage} />
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', justifyContent: 'center', spaceX: 12 }}>
               <TouchableOpacity style={{ padding: 8, backgroundColor: '#f0f0f0', borderRadius: 20 }}>
-                <Image source={require('../assets/icons/apple.png')} style={{ width: 40, height: 40 }} />
+                <Image source={require('../../assets/icons/apple.png')} style={{ width: 40, height: 40 }} />
               </TouchableOpacity>
             </View>
           </View>

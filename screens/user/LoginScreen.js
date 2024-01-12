@@ -1,13 +1,13 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
 import React from 'react'
-import { themeColors } from '../theme'
+import { themeColors } from '../../theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
-import { loginStyles } from '../style/LoginStyle';
-import BottomNavigtor from '../navigation/BottomNavigator';
+import { loginStyles } from '../../style/user/LoginStyle';
+import BottomNavigtor from '../../navigation/BottomNavigator';
 
-export default function SignUpScreen() {
+export default function LoginScreen() {
   const navigation = useNavigation();
   return (
     <View style={loginStyles.container}>
@@ -54,13 +54,13 @@ export default function SignUpScreen() {
         <View style={[loginStyles.socialButtonContainer, {paddingBottom:20}]}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', spaceX: 12 }}>
             <TouchableOpacity style={loginStyles.socialButton}>
-              <Image source={require('../assets/icons/google.png')} style={loginStyles.socialButtonImage} />
+              <Image source={require('../../assets/icons/google.png')} style={loginStyles.socialButtonImage} />
             </TouchableOpacity>
             <TouchableOpacity style={{ padding: 8, backgroundColor: '#f0f0f0', borderRadius: 20 }}>
-              <Image source={require('../assets/icons/apple.png')} style={{ width: 40, height: 40 }} />
+              <Image source={require('../../assets/icons/apple.png')} style={{ width: 40, height: 40 }} />
             </TouchableOpacity>
             <TouchableOpacity style={{ padding: 8, backgroundColor: '#f0f0f0', borderRadius: 20 }}>
-              <Image source={require('../assets/icons/facebook.png')} style={{ width: 40, height: 40 }} />
+              <Image source={require('../../assets/icons/facebook.png')} style={{ width: 40, height: 40 }} />
             </TouchableOpacity>
           </View>
         </View>

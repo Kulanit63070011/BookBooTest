@@ -18,14 +18,14 @@ export const columnOfCardsStyles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   cardAuthor: {
     fontSize: 14,
-    color: 'black',
+    color: 'white',
   },
   cardText: {
     fontSize: 16,
-    color: 'black',
+    color: 'white',
   },
 });

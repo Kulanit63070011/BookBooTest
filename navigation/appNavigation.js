@@ -8,6 +8,8 @@ import CustomHeader from './CustomHeader';
 import MyBookShelfScreen from '../screens/bookshelf/MyBookShelfScreen';
 import CreateMyBookScreen from '../screens/bookshelf/CreateMyBookScreen';
 import LoginScreen from '../screens/user/LoginScreen';
+import CreateCommunityScreen from '../screens/community/CreateCommunityScreen';
+import EditCommunityScreen from '../screens/community/EditCommunityScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +17,7 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='MyBookShelf'
+        initialRouteName='EditCommunity'
         screenOptions={({ route }) => ({
           header: ({ scene }) => {
             const { name } = route;
@@ -53,13 +55,23 @@ const AppNavigation = () => {
         />
         <Stack.Screen
           name="MyBookShelf"
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
           component={MyBookShelfScreen}
         />
         <Stack.Screen
           name="CreateMyBook"
           options={{ headerShown: true }}
           component={CreateMyBookScreen}
+        />
+        <Stack.Screen
+          name="CreateCommunity"
+          options={{ headerShown: true }}
+          component={CreateCommunityScreen}
+        />
+        <Stack.Screen
+          name="EditCommunity"
+          options={{ headerShown: true }}
+          component={EditCommunityScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

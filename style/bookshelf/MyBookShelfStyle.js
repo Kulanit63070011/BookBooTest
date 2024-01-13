@@ -6,6 +6,12 @@ export const myBookShelfStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  title: {
+    color: 'white',
+    fontSize: 40,
+    padding: 6,
+    fontWeight: 'bold',
+  },
   header: {
     color: 'black',
     fontSize: 40,
@@ -51,5 +57,11 @@ export const myBookShelfStyles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: '#F1F1EE',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
 });

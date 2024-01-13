@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
 import { signUpStyles } from '../../style/user/SignUpStyle';
+import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
 
 export default function SignUpScreen() {
   const navigation = useNavigation();

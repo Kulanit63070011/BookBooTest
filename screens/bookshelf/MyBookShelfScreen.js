@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import ColumnOfCards from '../../components/BookShelf/ColumnCard/ColumnOfCards';
 import FloatingButton from '../../components/common/FloatingAddButton';
 import BookDetailsModal from '../../components/BookShelf/BookDetailsModal';
 import { useNavigation } from '@react-navigation/native';
+import { signUpStyles } from '../../style/user/SignUpStyle';
 
 const MyBookShelfScreen = () => {
   const navigation = useNavigation();
@@ -52,13 +53,13 @@ const MyBookShelfScreen = () => {
   useEffect(() => {
     console.log('Book details inside component:', selectedBook);
   }, [selectedBook]);
-  
+
   const openBookDetails = (book) => {
     console.log('Opening book details for:', book);
     setSelectedBook(book);
     setIsModalVisible(true);
-  };  
-  
+  };
+
   const deleteBook = () => {
     // Implement book deletion logic here
     // ...
@@ -66,42 +67,47 @@ const MyBookShelfScreen = () => {
   };
 
   return (
-    <View style={myBookShelfStyles.container}>
-      <View style={myBookShelfStyles.bookInputContainer}>
-        <TextInput
-          style={myBookShelfStyles.input}
-          placeholder="Book Title"
-          value={newBook.title}
-          onChangeText={(text) => setNewBook({ ...newBook, title: text })}
-        />
-        {/* ... (other TextInput fields) */}
-        <TouchableOpacity onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
-          <Image
-            source={require('../../assets/icons/searchIcon.png')}
-            style={{ width: 24, height: 24 }}
-          />
-        </TouchableOpacity>
-      </View>
-      <Text style={myBookShelfStyles.header}>ชั้นหนังสือ</Text>
-       <ScrollView>
-        <View>
-          {books.length > 0 ? (
-            <ColumnOfCards cards={books} onPress={openBookDetails} />
-          ) : (
-            <Text>No books in your bookshelf</Text>
-          )}
+    <View style={signUpStyles.container}>
+      <SafeAreaView>
+        <View style={signUpStyles.titleContainer}>
+          <Text style={myBookShelfStyles.title}>ชั้นหนังสือ</Text>
         </View>
-      </ScrollView>
-      
-      <FloatingButton onPress={() => navigation.navigate('Login')} />
+      </SafeAreaView>
+      <View style={[myBookShelfStyles.contentContainer]}>
+        <View style={myBookShelfStyles.bookInputContainer}>
+          <TextInput
+            style={myBookShelfStyles.input}
+            placeholder="Book Title"
+            value={newBook.title}
+            onChangeText={(text) => setNewBook({ ...newBook, title: text })}
+          />
+          {/* ... (other TextInput fields) */}
+          <TouchableOpacity onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
+            <Image
+              source={require('../../assets/icons/searchIcon.png')}
+              style={{ width: 24, height: 24 }}
+            />
+          </TouchableOpacity>
+        </View>
+        <ScrollView>
+          <View>
+            {books.length > 0 ? (
+              <ColumnOfCards cards={books} onPress={openBookDetails} />
+            ) : (
+              <Text>No books in your bookshelf</Text>
+            )}
+          </View>
+        </ScrollView>
+      </View>
+      <FloatingButton />
       <BottomNavigator style={myBookShelfStyles.bottomNavigator} />
-      {/* Modal for Book Details */}
       <BookDetailsModal
         visible={isModalVisible}
         bookDetails={selectedBook}
         onClose={() => setIsModalVisible(false)}
         onDelete={deleteBook}
       />
+
     </View>
   );
 };

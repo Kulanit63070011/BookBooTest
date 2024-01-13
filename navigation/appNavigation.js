@@ -10,6 +10,8 @@ import CreateMyBookScreen from '../screens/bookshelf/CreateMyBookScreen';
 import LoginScreen from '../screens/user/LoginScreen';
 import CreateCommunityScreen from '../screens/community/CreateCommunityScreen';
 import EditCommunityScreen from '../screens/community/EditCommunityScreen';
+import AllCommunityScreen from '../screens/community/AllCommunityScreen';
+import MyCommunityScreen from '../screens/community/MyCommunityScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +19,7 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='EditCommunity'
+        initialRouteName='MyCommunity'
         screenOptions={({ route }) => ({
           header: ({ scene }) => {
             const { name } = route;
@@ -72,6 +74,16 @@ const AppNavigation = () => {
           name="EditCommunity"
           options={{ headerShown: true }}
           component={EditCommunityScreen}
+        />
+        <Stack.Screen
+          name="AllCommunity"
+          options={{ headerShown: true }}
+          component={AllCommunityScreen}
+        />
+        <Stack.Screen
+          name="MyCommunity"
+          options={{ headerShown: true }}
+          component={MyCommunityScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

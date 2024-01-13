@@ -26,7 +26,7 @@ const EditCommunityScreen = ({ visible, communityDetails, onClose, onDelete, onS
   };
 
   return (
-    <View style={[createCommuStyles.modalContainer, {backgroundColor:'red'}]}>
+    <View style={[createCommuStyles.modalContainer]}>
       <View style={createCommuStyles.topBar}>
         {/* Your top bar components */}
 
@@ -61,7 +61,7 @@ const EditCommunityScreen = ({ visible, communityDetails, onClose, onDelete, onS
       <TouchableOpacity onPress={handleSave} style={createCommuStyles.actionButton}>
         <Text style={createCommuStyles.buttonText}>Save</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleDelete} style={createCommuStyles.deleteButton}>
+      <TouchableOpacity onPress={handleDelete} style={createCommuStyles.actionButton}>
           <Text style={createCommuStyles.buttonText}>Delete</Text>
         </TouchableOpacity>
     </View>

@@ -26,6 +26,7 @@ export const createCommuStyles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 5,
+    borderRadius:50,
   },
   actionButton: {
     backgroundColor: 'blue',
@@ -37,7 +38,7 @@ export const createCommuStyles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     textAlign: 'center',
     fontSize: 16,
   },

@@ -5,7 +5,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
 import { loginStyles } from '../../style/user/LoginStyle';
-import BottomNavigtor from '../../navigation/BottomNavigator';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -71,7 +70,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <BottomNavigtor></BottomNavigtor>
+      
     </View>
   )
 }

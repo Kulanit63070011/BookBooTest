@@ -1,20 +1,19 @@
-// FloatingButton.js
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const FloatingButton = () => {
+const FloatingButton = ({ targetScreen }) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate('CreateMyBook');
+    navigation.navigate(targetScreen);
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.button}
-        onPress={handlePress} // Add this onPress handler
+        onPress={handlePress}
       >
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
@@ -25,9 +24,9 @@ const FloatingButton = () => {
 const styles = {
   container: {
     position: 'absolute',
-    bottom: 70, // Adjust the position as needed
+    bottom: 70,
     right: 16,
-    zIndex: 2, // Set a higher zIndex to appear above Bottom Navigator
+    zIndex: 2,
   },
   button: {
     backgroundColor: 'red',

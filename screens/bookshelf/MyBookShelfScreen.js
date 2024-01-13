@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
 import BottomNavigator from '../../navigation/BottomNavigator';
-import ColumnOfCards from '../../components/BookShelf/ColumnCard/ColumnOfCards';
 import FloatingButton from '../../components/common/FloatingAddButton';
 import BookDetailsModal from '../../components/BookShelf/BookDetailsModal';
 import { useNavigation } from '@react-navigation/native';
 import { signUpStyles } from '../../style/user/SignUpStyle';
+import BookColumnOfCards from '../../components/BookShelf/BookColumnOfCards';
 
 const MyBookShelfScreen = () => {
   const navigation = useNavigation();
@@ -92,14 +92,14 @@ const MyBookShelfScreen = () => {
         <ScrollView>
           <View>
             {books.length > 0 ? (
-              <ColumnOfCards cards={books} onPress={openBookDetails} />
+              <BookColumnOfCards cards={books} onPress={openBookDetails} />
             ) : (
               <Text>No books in your bookshelf</Text>
             )}
           </View>
         </ScrollView>
       </View>
-      <FloatingButton />
+      <FloatingButton targetScreen="CreateMyBook"/>
       <BottomNavigator style={myBookShelfStyles.bottomNavigator} />
       <BookDetailsModal
         visible={isModalVisible}

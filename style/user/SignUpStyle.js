@@ -9,7 +9,6 @@ export const signUpStyles = StyleSheet.create({
   },
   titleContainer: {
     alignItems: 'center',
-    padding: 10,
   },
   title: {
     color: 'white',
@@ -37,7 +36,6 @@ export const signUpStyles = StyleSheet.create({
     backgroundColor: '#CEE3F3',
     color: 'black',
     borderRadius: 20,
-    marginBottom: 3,
     height: 40,
   },
   signUpButton: {

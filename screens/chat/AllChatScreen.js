@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import BottomNavigator from '../../navigation/BottomNavigator';
-import FloatingButton from '../../components/common/FloatingAddButton';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
 import { signUpStyles } from '../../style/user/SignUpStyle';
 import { allCommunityStyles } from '../../style/community/AllCommunityStyle';
 import CommunityDetailsModal from '../../components/Community/CommunityDetailsModal';
-import MyCommuColumnOfCards from '../../components/Community/MyCommuColumnOfCards';
+import CommuColumnOfCards from '../../components/Community/CommuColumnOfCards';
+import FloatingButton from '../../components/common/FloatingAddButton';
+import BottomNavigator from '../../navigation/BottomNavigator';
+import UserDetailsModal from '../../components/User/UserDetailsModal';
 
-const MyCommunityScreen = () => {
+const AllChatScreen = () => {
   const navigation = useNavigation();
   const [newCommunity, setNewCommunity] = useState({
     name: '',
@@ -20,10 +21,6 @@ const MyCommunityScreen = () => {
     { name: 'Community 2', description: 'Description for Community 2' },
     { name: 'Community 3', description: 'Description for Community 3' },
     { name: 'Community 4', description: 'Description for Community 4' },
-    { name: 'Community 5', description: 'Description for Community 5' },
-    { name: 'Community 6', description: 'Description for Community 6' },
-    { name: 'Community 7', description: 'Description for Community 7' },
-    { name: 'Community 8', description: 'Description for Community 8' },
   ]);
 
   const [selectedCommunity, setSelectedCommunity] = useState(null);
@@ -54,14 +51,18 @@ const MyCommunityScreen = () => {
   };
 
   const deleteCommunity = () => {
-    setIsModalVisible(false);
+    setIsModalVisible(false); // Close the modal after deletion
+  };
+
+  const navigateToCreateCommunity = () => {
+    navigation.navigate('CreateCommunityScreen'); // Navigate to CreateCommunityScreen
   };
 
   return (
     <View style={signUpStyles.container}>
       <SafeAreaView>
         <View style={signUpStyles.titleContainer}>
-          <Text style={allCommunityStyles.title}>ชุมชนของฉัน</Text>
+          <Text style={allCommunityStyles.title}>ห้องสนทนา</Text>
         </View>
       </SafeAreaView>
       <View style={[allCommunityStyles.contentContainer]}>
@@ -82,23 +83,27 @@ const MyCommunityScreen = () => {
         <ScrollView>
           <View>
             {communities.length > 0 ? (
-              <MyCommuColumnOfCards cards={communities} onPress={openCommunityDetails} cardWidth={170} />
+              <CommuColumnOfCards cards={communities} onPress={openCommunityDetails} cardWidth={350} />
             ) : (
               <Text>No communities available</Text>
             )}
           </View>
         </ScrollView>
+        <BottomNavigator style={allCommunityStyles.bottomNavigator} />
+        <UserDetailsModal
+          visible={isModalVisible}
+          communityDetails={selectedCommunity}
+          onClose={() => setIsModalVisible(false)}
+          onDelete={deleteCommunity}
+          onJoinCommunity={(updatedDetails) => {
+            // Implement logic to update the community details here if needed
+            console.log('Joining community with updated details:', updatedDetails);
+            setIsModalVisible(false);
+          }}
+        />
       </View>
-      <FloatingButton targetScreen="CreateCommunity" />
-      <BottomNavigator style={allCommunityStyles.bottomNavigator} />
-      <CommunityDetailsModal
-        visible={isModalVisible}
-        communityDetails={selectedCommunity}
-        onClose={() => setIsModalVisible(false)}
-        onDelete={deleteCommunity}
-      />
     </View>
   );
 };
 
-export default MyCommunityScreen;
+export default AllChatScreen;

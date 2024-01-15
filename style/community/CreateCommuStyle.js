@@ -27,15 +27,17 @@ export const createCommuStyles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 5,
     borderRadius:50,
+    backgroundColor: '#CEE3F3',
   },
   actionButton: {
-    backgroundColor: 'blue',
+    backgroundColor: 'red',
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
     width: '50%',
     alignItems: 'center',
     alignSelf: 'center',
+    borderRadius: 30,
   },
   buttonText: {
     color: 'black',

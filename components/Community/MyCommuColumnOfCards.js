@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E21E1E',
     borderRadius: 10,
     elevation: 2,
-    height: 160, // Increased height to accommodate the button
-    position: 'relative', // Needed for absolute positioning
+    height: 160,
+    position: 'relative',
   },
   cardTitle: {
     fontWeight: 'bold',

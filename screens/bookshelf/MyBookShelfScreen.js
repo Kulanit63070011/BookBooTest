@@ -22,15 +22,11 @@ const MyBookShelfScreen = () => {
     { title: 'Book 2', author: 'Author 2', cardText: 'Additional text for Book 2' },
     { title: 'Book 3', author: 'Author 3', cardText: 'Additional text for Book 3' },
     { title: 'Book 4', author: 'Author 4', cardText: 'Additional text for Book 4' },
-    { title: 'Book 1', author: 'Author 1', cardText: 'Additional text for Book 1' },
-    { title: 'Book 2', author: 'Author 2', cardText: 'Additional text for Book 2' },
-    { title: 'Book 3', author: 'Author 3', cardText: 'Additional text for Book 3' },
-    { title: 'Book 4', author: 'Author 4', cardText: 'Additional text for Book 4' },
-    { title: 'Book 1', author: 'Author 1', cardText: 'Additional text for Book 1' },
-    { title: 'Book 2', author: 'Author 2', cardText: 'Additional text for Book 2' },
-    { title: 'Book 3', author: 'Author 3', cardText: 'Additional text for Book 3' },
-    { title: 'Book 4', author: 'Author 4', cardText: 'Additional text for Book 4' },
-    // ... (other books)
+    { title: 'Book 5', author: 'Author 1', cardText: 'Additional text for Book 5' },
+    { title: 'Book 6', author: 'Author 2', cardText: 'Additional text for Book 6' },
+    { title: 'Book 7', author: 'Author 3', cardText: 'Additional text for Book 7' },
+    { title: 'Book 8', author: 'Author 4', cardText: 'Additional text for Book 8' },
+    { title: 'Book 9', author: 'Author 1', cardText: 'Additional text for Book 9' },
   ]);
 
   const [selectedBook, setSelectedBook] = useState(null); // Track the selected book for the modal
@@ -61,8 +57,6 @@ const MyBookShelfScreen = () => {
   };
 
   const deleteBook = () => {
-    // Implement book deletion logic here
-    // ...
     setIsModalVisible(false); // Close the modal after deletion
   };
 
@@ -81,7 +75,6 @@ const MyBookShelfScreen = () => {
             value={newBook.title}
             onChangeText={(text) => setNewBook({ ...newBook, title: text })}
           />
-          {/* ... (other TextInput fields) */}
           <TouchableOpacity onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
             <Image
               source={require('../../assets/icons/searchIcon.png')}
@@ -99,7 +92,7 @@ const MyBookShelfScreen = () => {
           </View>
         </ScrollView>
       </View>
-      <FloatingButton targetScreen="CreateMyBook"/>
+      <FloatingButton targetScreen="CreateMyBook" />
       <BottomNavigator style={myBookShelfStyles.bottomNavigator} />
       <BookDetailsModal
         visible={isModalVisible}
@@ -107,7 +100,6 @@ const MyBookShelfScreen = () => {
         onClose={() => setIsModalVisible(false)}
         onDelete={deleteBook}
       />
-
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
-import { createCommuStyles } from '../../style/community/CrerateCommuStyle';
+import { createCommuStyles } from '../../style/community/CreateCommuStyle';
 import BottomNavigator from '../../navigation/BottomNavigator';
 
 const CreateCommunityScreen = ({ visible, communityDetails, onClose, onDelete, onSave }) => {
@@ -25,7 +25,6 @@ const CreateCommunityScreen = ({ visible, communityDetails, onClose, onDelete, o
   return (
     <View style={createCommuStyles.modalContainer}>
       <View style={createCommuStyles.topBar}>
-        {/* Your top bar components */}
       </View>
       <View style={createCommuStyles.modalContent}>
         <Text style={createCommuStyles.label}>Community Image:</Text>

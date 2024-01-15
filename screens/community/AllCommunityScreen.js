@@ -6,10 +6,10 @@ import FloatingButton from '../../components/common/FloatingAddButton';
 import { signUpStyles } from '../../style/user/SignUpStyle';
 import { allCommunityStyles } from '../../style/community/AllCommunityStyle';
 import CommunityDetailsModal from '../../components/Community/CommunityDetailsModal';
-import CommuColumnOfCards from '../../components/Community/Calendar/CommuColumnOfCards';
+import CommuColumnOfCards from '../../components/Community/CommuColumnOfCards';
 
 const AllCommunityScreen = () => {
-  const navigation = useNavigation(); // Get the navigation object
+  const navigation = useNavigation();
 
   const [newCommunity, setNewCommunity] = useState({
     name: '',
@@ -21,7 +21,6 @@ const AllCommunityScreen = () => {
     { name: 'Community 2', description: 'Description for Community 2' },
     { name: 'Community 3', description: 'Description for Community 3' },
     { name: 'Community 4', description: 'Description for Community 4' },
-    // Add more communities as needed
   ]);
 
   const [selectedCommunity, setSelectedCommunity] = useState(null);
@@ -46,14 +45,11 @@ const AllCommunityScreen = () => {
   }, [selectedCommunity]);
 
   const openCommunityDetails = (community) => {
-    console.log('Opening community details for:', community);
     setSelectedCommunity(community);
     setIsModalVisible(true);
   };
 
   const deleteCommunity = () => {
-    // Implement community deletion logic here
-    // ...
     setIsModalVisible(false); // Close the modal after deletion
   };
 
@@ -76,7 +72,6 @@ const AllCommunityScreen = () => {
             value={newCommunity.name}
             onChangeText={(text) => setNewCommunity({ ...newCommunity, name: text })}
           />
-          {/* ... (other TextInput fields) */}
           <TouchableOpacity onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
             <Image
               source={require('../../assets/icons/searchIcon.png')}

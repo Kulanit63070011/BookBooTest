@@ -11,11 +11,6 @@ export default function LoginScreen() {
   return (
     <View style={loginStyles.container}>
       <SafeAreaView>
-        <View>
-          {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ArrowLeftIcon size={20} color="white" />
-          </TouchableOpacity> */}
-        </View>
         <View style={loginStyles.titleContainer}>
           <Text style={loginStyles.title}>Log in</Text>
         </View>
@@ -50,7 +45,7 @@ export default function LoginScreen() {
         <Text style={loginStyles.text}>
           Or
         </Text>
-        <View style={[loginStyles.socialButtonContainer, {paddingBottom:20}]}>
+        <View style={[loginStyles.socialButtonContainer, { paddingBottom: 20 }]}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', spaceX: 12 }}>
             <TouchableOpacity style={loginStyles.socialButton}>
               <Image source={require('../../assets/icons/google.png')} style={loginStyles.socialButtonImage} />
@@ -70,7 +65,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      
+
     </View>
   )
 }

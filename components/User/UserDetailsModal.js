@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, TextInput, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const CommunityDetailsModal = ({ visible, communityDetails, onClose, onDelete, onJoinCommunity }) => {
+const UserDetailsModal = ({ visible, communityDetails, onClose, onDelete, onJoinCommunity }) => {
   if (!visible || !communityDetails) {
     return null;
   }
@@ -35,24 +35,8 @@ const CommunityDetailsModal = ({ visible, communityDetails, onClose, onDelete, o
         <ScrollView>
           <View style={styles.modalContent}>
             <Text style={styles.label}>Community Image:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.name}
-              onChangeText={(text) => handleInputChange('name', text)}
-            />
             <Text style={styles.label}>Community Name:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.name}
-              onChangeText={(text) => handleInputChange('name', text)}
-            />
             <Text style={styles.label}>Description:</Text>
-            <TextInput
-              style={[styles.input, { height: 80 }]}
-              value={updatedDetails.description}
-              onChangeText={(text) => handleInputChange('description', text)}
-              multiline={true}
-            />
           </View>
         </ScrollView>
         <TouchableOpacity onPress={handleJoinCommunity} style={styles.actionButton}>
@@ -109,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommunityDetailsModal;
+export default UserDetailsModal;

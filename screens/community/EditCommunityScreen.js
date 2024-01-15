@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
-import { createCommuStyles } from '../../style/community/CrerateCommuStyle';
+import { createCommuStyles } from '../../style/community/CreateCommuStyle';
 
 const EditCommunityScreen = ({ visible, communityDetails, onClose, onDelete, onSave }) => {
   const [updatedDetails, setUpdatedDetails] = useState({
@@ -22,14 +22,12 @@ const EditCommunityScreen = ({ visible, communityDetails, onClose, onDelete, onS
   };
 
   const handleDelete = () => {
-    onDelete(); // Add your logic for deleting a community
+    onDelete();
   };
 
   return (
     <View style={[createCommuStyles.modalContainer]}>
       <View style={createCommuStyles.topBar}>
-        {/* Your top bar components */}
-
       </View>
       <View style={createCommuStyles.modalContent}>
         <Text style={createCommuStyles.label}>Community Image:</Text>

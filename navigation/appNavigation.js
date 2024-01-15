@@ -1,4 +1,3 @@
-// AppNavigation.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,6 +11,16 @@ import CreateCommunityScreen from '../screens/community/CreateCommunityScreen';
 import EditCommunityScreen from '../screens/community/EditCommunityScreen';
 import AllCommunityScreen from '../screens/community/AllCommunityScreen';
 import MyCommunityScreen from '../screens/community/MyCommunityScreen';
+import CreateCalendarScreen from '../screens/community/calendar/CreateCalendarScreen';
+import EditCalendarScreen from '../screens/community/calendar/EditCalendarScreen';
+import EditProfileScreen from '../screens/user/EditProfileScreen';
+import ChatScreen from '../screens/chat/ChatScreen';
+import AllChatScreen from '../screens/chat/AllChatScreen';
+import MyProfileScreen from '../screens/user/MyProfileScreen';
+import MyNotificationScreen from '../screens/user/MyNotificationScreen';
+import EditMyBookScreen from '../screens/bookshelf/EditMyBookScreen';
+import CalendarCommunityScreen from '../screens/community/calendar/CalendarCommunityScreen';
+import CommunityScreen from '../screens/community/CommunityScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +28,7 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='MyCommunity'
+        initialRouteName='Community'
         screenOptions={({ route }) => ({
           header: ({ scene }) => {
             const { name } = route;
@@ -36,7 +45,6 @@ const AppNavigation = () => {
             // Default behavior for other screens
             return <CustomHeader title={name} />;
           },
-
           headerShown: true,
         })}
       >
@@ -56,19 +64,63 @@ const AppNavigation = () => {
           component={SignUpScreen}
         />
         <Stack.Screen
-          name="MyBookShelf"
-          options={{ headerShown: false }}
-          component={MyBookShelfScreen}
+          name="MyProfile"
+          options={{ headerShown: true }}
+          component={MyProfileScreen}
         />
+        <Stack.Screen
+          name="EditProfile"
+          options={{ headerShown: true }}
+          component={EditProfileScreen}
+        />
+        <Stack.Screen
+          name="Chat"
+          options={{ headerShown: true }}
+          component={ChatScreen}
+        />
+        <Stack.Screen
+          name="AllChat"
+          options={{ headerShown: true }}
+          component={AllChatScreen}
+        />
+        <Stack.Screen
+          name="MyNotification"
+          options={{ headerShown: true }}
+          component={MyNotificationScreen}
+        />
+
+
         <Stack.Screen
           name="CreateMyBook"
           options={{ headerShown: true }}
           component={CreateMyBookScreen}
         />
         <Stack.Screen
+          name="MyBookShelf"
+          options={{ headerShown: false }}
+          component={MyBookShelfScreen}
+        />
+        <Stack.Screen
+          name="EditMyBook"
+          options={{ headerShown: false }}
+          component={EditMyBookScreen}
+        />
+
+
+        <Stack.Screen
           name="CreateCommunity"
           options={{ headerShown: true }}
           component={CreateCommunityScreen}
+        />
+        <Stack.Screen
+          name="MyCommunity"
+          options={{ headerShown: true }}
+          component={MyCommunityScreen}
+        />
+        <Stack.Screen
+          name="Community"
+          options={{ headerShown: true }}
+          component={CommunityScreen}
         />
         <Stack.Screen
           name="EditCommunity"
@@ -81,9 +133,19 @@ const AppNavigation = () => {
           component={AllCommunityScreen}
         />
         <Stack.Screen
-          name="MyCommunity"
+          name="CreateCalendar"
           options={{ headerShown: true }}
-          component={MyCommunityScreen}
+          component={CreateCalendarScreen}
+        />
+        <Stack.Screen
+          name="CalendarCommunity"
+          options={{ headerShown: true }}
+          component={CalendarCommunityScreen}
+        />
+        <Stack.Screen
+          name="EditCalendar"
+          options={{ headerShown: true }}
+          component={EditCalendarScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

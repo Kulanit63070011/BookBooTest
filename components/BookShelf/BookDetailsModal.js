@@ -1,3 +1,4 @@
+// BookDetailsModal.js
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, TextInput, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -7,12 +8,14 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
     return null;
   }
 
-  const { title, author, purchaseDate, coverImage } = bookDetails;
+  const { title, author, purchaseDate, coverImage, type, aboutBook } = bookDetails;
   const [updatedDetails, setUpdatedDetails] = useState({
     title,
     author,
     purchaseDate,
     coverImage,
+    type,
+    aboutBook,
   });
 
   const handleInputChange = (property, value) => {
@@ -27,66 +30,62 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
   };
 
   return (
-    <Modal visible={visible} animationType="slide">
+    <Modal transparent={true} animationType="slide" visible={visible}>
       <View style={styles.modalContainer}>
-        <View style={styles.topBar}>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Icon name="close" size={30} color="white" />
+        <View style={styles.modalContent}>
+          <View style={styles.topBar}>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <Icon name="close" size={30} color="white" />
+            </TouchableOpacity>
+          </View>
+          <ScrollView>
+            <View style={styles.formContainer}>
+              <Text style={styles.label}>Cover Image:</Text>
+              <TextInput
+                style={styles.input}
+                value={updatedDetails.coverImage}
+                onChangeText={(text) => handleInputChange('coverImage', text)}
+              />
+              <Text style={styles.label}>Book Title:</Text>
+              <TextInput
+                style={styles.input}
+                value={updatedDetails.title}
+                onChangeText={(text) => handleInputChange('title', text)}
+              />
+              <Text style={styles.label}>Type:</Text>
+              <TextInput
+                style={styles.input}
+                value={updatedDetails.type}
+                onChangeText={(text) => handleInputChange('type', text)}
+              />
+              <Text style={styles.label}>Author:</Text>
+              <TextInput
+                style={styles.input}
+                value={updatedDetails.author}
+                onChangeText={(text) => handleInputChange('author', text)}
+              />
+              <Text style={styles.label}>Purchase Date:</Text>
+              <TextInput
+                style={styles.input}
+                value={updatedDetails.purchaseDate}
+                onChangeText={(text) => handleInputChange('purchaseDate', text)}
+              />
+              <Text style={styles.label}>About:</Text>
+              <TextInput
+                style={[styles.input, { height: 80 }]}
+                value={updatedDetails.aboutBook}
+                onChangeText={(text) => handleInputChange('aboutBook', text)}
+                multiline={true}
+              />
+            </View>
+          </ScrollView>
+          <TouchableOpacity onPress={handleSave} style={styles.actionButton}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onDelete} style={[styles.actionButton, { backgroundColor: 'red' }]}>
+            <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView>
-          <View style={styles.modalContent}>
-            <Text style={styles.label}>Cover Image:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.coverImage}
-              onChangeText={(text) => handleInputChange('coverImage', text)}
-            />
-
-            <Text style={styles.label}>Book Title:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.title}
-              onChangeText={(text) => handleInputChange('title', text)}
-            />
-
-            <Text style={styles.label}>Type:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.type}
-              onChangeText={(text) => handleInputChange('type', text)}
-            />
-
-            <Text style={styles.label}>Author:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.author}
-              onChangeText={(text) => handleInputChange('author', text)}
-            />
-
-            <Text style={styles.label}>Purchase Date:</Text>
-            <TextInput
-              style={styles.input}
-              value={updatedDetails.purchaseDate}
-              onChangeText={(text) => handleInputChange('purchaseDate', text)}
-            />
-
-            <Text style={styles.label}>About:</Text>
-            <TextInput
-              style={[styles.input, { height: 80 }]}
-              value={updatedDetails.aboutBook}
-              onChangeText={(text) => handleInputChange('aboutBook', text)}
-              multiline={true}
-            />
-          </View>
-        </ScrollView>
-        <TouchableOpacity onPress={handleSave} style={styles.actionButton}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={onDelete} style={[styles.actionButton, { backgroundColor: 'red' }]}>
-          <Text style={styles.buttonText}>Delete</Text>
-        </TouchableOpacity>
       </View>
     </Modal>
   );
@@ -95,11 +94,19 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
     backgroundColor: 'white',
+    borderRadius: 10,
+    width: '80%',
+    maxHeight: '80%',
+    overflow: 'hidden',
   },
   topBar: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
+    padding: 20,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
@@ -108,7 +115,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  modalContent: {
+  formContainer: {
     marginBottom: 20,
     paddingHorizontal: 20,
   },
@@ -116,6 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
   },
   input: {
     height: 40,
@@ -123,6 +131,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 5,
+    color: 'black',
   },
   actionButton: {
     backgroundColor: 'blue',

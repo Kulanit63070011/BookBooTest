@@ -1,22 +1,14 @@
-import { View, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native'
-import React from 'react'
-import { themeColors } from '../../theme'
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
 import { signUpStyles } from '../../style/user/SignUpStyle';
-import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
 
-export default function SignUpScreen() {
+const EditProfileScreen = ({ visible, communityDetails, onClose, onDelete, onSave }) => {
   const navigation = useNavigation();
   return (
-    <View style={signUpStyles.container}>
-      <SafeAreaView>
-        <View style={signUpStyles.titleContainer}>
-          <Text style={signUpStyles.title}>Register</Text>
-        </View>
-      </SafeAreaView>
-      <ScrollView style={signUpStyles.contentContainer}>
+    <View>
+      <ScrollView >
         <TouchableOpacity>
           <Image source={require('../../assets/images/human.png')} style={signUpStyles.profileImage} />
         </TouchableOpacity>
@@ -74,7 +66,7 @@ export default function SignUpScreen() {
           </View>
           <View style={[signUpStyles.socialButtonContainer, { marginBottom: 20 }]}>
             <TouchableOpacity style={signUpStyles.socialButton}>
-              <Image source={require('../../assets/icons/google.png')} style={signUpStyles.socialButtonImage} />
+              <Image source={require('../../assets/icons/apple.png')} style={signUpStyles.socialButtonImage} />
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', justifyContent: 'center', spaceX: 12 }}>
               <TouchableOpacity style={{ padding: 8, backgroundColor: '#f0f0f0', borderRadius: 20 }}>
@@ -85,7 +77,7 @@ export default function SignUpScreen() {
           <View style={{ paddingBottom: 30 }}>
             <TouchableOpacity style={signUpStyles.signUpButton}>
               <Text style={signUpStyles.signUpButtonText}>
-                Sign Up
+                Save Edit
               </Text>
             </TouchableOpacity>
           </View>
@@ -93,4 +85,6 @@ export default function SignUpScreen() {
       </ScrollView>
     </View>
   )
-}
+};
+
+export default EditProfileScreen;

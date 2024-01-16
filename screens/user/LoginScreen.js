@@ -16,7 +16,7 @@ export default function LoginScreen() {
       // ทำการล็อกอินด้วย Firebase Authentication
       await signInWithEmailAndPassword(auth, email, password);
       console.log('Login successful');
-      navigation.navigate('MyProfile')
+      navigation.navigate('MyBookShelf')
       // ทำสิ่งที่ต้องการหลังจากล็อกอิน
     } catch (error) {
       console.error('Login failed', error.message);

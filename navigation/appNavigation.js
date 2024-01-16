@@ -28,7 +28,7 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Community'
+        initialRouteName='Login'
         screenOptions={({ route }) => ({
           header: ({ scene }) => {
             const { name } = route;

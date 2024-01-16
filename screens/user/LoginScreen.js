@@ -1,13 +1,29 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
-import React from 'react'
-import { themeColors } from '../../theme'
+import React, { useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ArrowLeftIcon } from 'react-native-heroicons/solid';
 import { useNavigation } from '@react-navigation/native';
 import { loginStyles } from '../../style/user/LoginStyle';
+import { auth } from '../../backend/firebase';
+import { signInWithEmailAndPassword } from '../../backend/firebase';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      // ทำการล็อกอินด้วย Firebase Authentication
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('Login successful');
+      navigation.navigate('MyProfile')
+      // ทำสิ่งที่ต้องการหลังจากล็อกอิน
+    } catch (error) {
+      console.error('Login failed', error.message);
+      // จัดการข้อผิดพลาด
+    }
+  };
+
   return (
     <View style={loginStyles.container}>
       <SafeAreaView>
@@ -18,11 +34,12 @@ export default function LoginScreen() {
       <View style={loginStyles.contentContainer}>
         <View style={loginStyles.inputContainer}>
           <View style={{ marginBottom: 20 }}>
-            <Text style={loginStyles.inputLabel}>Username</Text>
+            <Text style={loginStyles.inputLabel}>Email</Text>
             <TextInput
               style={loginStyles.textInput}
-              value="Test555"
-              placeholder='Enter Username'
+              value={email}
+              placeholder='Enter Email'
+              onChangeText={(text) => setEmail(text)}
             />
           </View>
           <View style={{ marginBottom: 35 }}>
@@ -30,12 +47,13 @@ export default function LoginScreen() {
             <TextInput
               style={loginStyles.textInput}
               secureTextEntry
-              value="test12345"
+              value={password}
               placeholder='Enter Password'
+              onChangeText={(text) => setPassword(text)}
             />
           </View>
           <View style={{ marginBottom: 20 }}>
-            <TouchableOpacity style={loginStyles.signUpButton}>
+            <TouchableOpacity style={loginStyles.signUpButton} onPress={handleLogin}>
               <Text style={loginStyles.signUpButtonText}>
                 Log in
               </Text>

@@ -13,6 +13,8 @@ const CommunityScreen = () => {
     const [posts, setPosts] = useState([
         { id: 1, title: 'Post 1', content: 'This is the content of Post 1' },
         { id: 2, title: 'Post 2', content: 'This is the content of Post 2' },
+        { id: 1, title: 'Post 1', content: 'This is the content of Post 1' },
+        { id: 2, title: 'Post 2', content: 'This is the content of Post 2' },
     ]);
 
     const handleCreatePost = (newPost) => {
@@ -36,8 +38,6 @@ const CommunityScreen = () => {
     return (
         <View style={communityStyles.container}>
             <Text style={communityStyles.heading}>Community Screen</Text>
-
-            {/* <Button title="Create Post" onPress={() => setCreatePostModalVisible(true)} /> */}
             <CreatePostCommunityModal
                 visible={isCreatePostModalVisible}
                 onClose={() => setCreatePostModalVisible(false)}

@@ -1,6 +1,6 @@
 // BookDetailsModal.js
 import React, { useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) => {
@@ -8,13 +8,12 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
     return null;
   }
 
-  const { title, author, purchaseDate, coverImage, type, aboutBook } = bookDetails;
+  const { title, author, purchaseDate, bookType, aboutBook } = bookDetails;
   const [updatedDetails, setUpdatedDetails] = useState({
     title,
     author,
     purchaseDate,
-    coverImage,
-    type,
+    bookType,
     aboutBook,
   });
 
@@ -26,7 +25,8 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
   };
 
   const handleSave = () => {
-    onSave(updatedDetails);
+    // Pass the updated details and book ID to the onSave function
+    onSave(updatedDetails, bookDetails.id);
   };
 
   return (
@@ -40,12 +40,7 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
           </View>
           <ScrollView>
             <View style={styles.formContainer}>
-              <Text style={styles.label}>Cover Image:</Text>
-              <TextInput
-                style={styles.input}
-                value={updatedDetails.coverImage}
-                onChangeText={(text) => handleInputChange('coverImage', text)}
-              />
+                <Image source={require('../../assets/images/human.png')} style={{width: 200, height: 200}}/>
               <Text style={styles.label}>Book Title:</Text>
               <TextInput
                 style={styles.input}
@@ -55,8 +50,8 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
               <Text style={styles.label}>Type:</Text>
               <TextInput
                 style={styles.input}
-                value={updatedDetails.type}
-                onChangeText={(text) => handleInputChange('type', text)}
+                value={updatedDetails.bookType}
+                onChangeText={(text) => handleInputChange('bookType', text)}
               />
               <Text style={styles.label}>Author:</Text>
               <TextInput

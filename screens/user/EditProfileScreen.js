@@ -8,44 +8,61 @@ import { getFirestore } from 'firebase/firestore';
 import { setDoc } from 'firebase/firestore';
 
 const EditProfileScreen = ({ route }) => {
-  const { user, onSave, onClose } = route.params;
+  const { user, onClose } = route.params;
   const [displayName, setDisplayName] = useState(user.displayName);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [aboutMe, setAboutMe] = useState(user.aboutMe);
 
   const handleSaveEdit = async () => {
-    // เพิ่มเช็คค่า user.id ที่ไม่เท่ากับ null
     if (user.id) {
       const userDocRef = doc(getFirestore(), 'users', user.id);
-  
+
       try {
         await setDoc(userDocRef, {
           displayName,
-          username: username || '', // ตรงนี้ต้องการให้ username มีค่า หากเป็น undefined ให้ใช้ค่าว่าง
+          username: username || '',
           email,
           aboutMe,
         });
-  
-        onSave({
-          id: user.id,
-          displayName,
-          username: username || '', // ตรงนี้ต้องการให้ username มีค่า หากเป็น undefined ให้ใช้ค่าว่าง
-          email,
-          aboutMe,
+
+        // Update the navigation options with the new user data
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => onSaveUser()}>
+              {/* Render your save button or icon */}
+              <Text>Save</Text>
+            </TouchableOpacity>
+          ),
         });
+
         console.log('User data updated in Firestore');
       } catch (error) {
         console.error('Error updating user data in Firestore', error.message);
       }
-  
+
       onClose();
     }
   };
-  
-  
+
+  const onSaveUser = () => {
+    // Your onSave logic here
+    console.log('Save user function called');
+  };
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    // Update navigation options when the component mounts
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => onSaveUser()}>
+          {/* Render your save button or icon */}
+          <Text>Save</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <ScrollView>

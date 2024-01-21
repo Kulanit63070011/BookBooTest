@@ -1,71 +1,124 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../../backend/firebase';
 import { createMyBookStyles } from '../../style/bookshelf/CreateMyBookStyle';
 
-const CreateMyBookScreen = ({ visible, bookDetails, onClose, onDelete, onSave }) => {
-  const [updatedDetails, setUpdatedDetails] = useState({
-    title: bookDetails ? bookDetails.title : '',
-    author: bookDetails ? bookDetails.author : '',
-    purchaseDate: bookDetails ? bookDetails.purchaseDate : '',
-    coverImage: bookDetails ? bookDetails.coverImage : '',
-  });
+const CreateMyBookScreen = () => {
+  const navigation = useNavigation();
+  const [title, setTitle] = useState('');
+  const [bookType, setBookType] = useState('');
+  const [author, setAuthor] = useState('');
+  const [purchaseDate, setPurchaseDate] = useState('');
+  const [aboutBook, setAboutBook] = useState('');
 
-  const handleInputChange = (property, value) => {
-    setUpdatedDetails({
-      ...updatedDetails,
-      [property]: value,
-    });
+  // ฟังก์ชันที่ใช้ในการบันทึกข้อมูลหนังสือลงใน Firestore
+  const handleSaveToFirestore = async (userBookshelfId, bookData) => {
+    const bookshelfDocRef = doc(db, 'bookshelf', userBookshelfId);
+    const bookshelfDocSnapshot = await getDoc(bookshelfDocRef);
+
+    if (bookshelfDocSnapshot.exists()) {
+      // หากมีหนังสือ, ให้ทำการอัปเดต
+      await updateDoc(bookshelfDocRef, {
+        books: [...bookshelfDocSnapshot.data().books, bookData],
+      });
+    } else {
+      // หากยังไม่มีหนังสือ, ให้ทำการสร้างใหม่
+      await setDoc(bookshelfDocRef, {
+        books: [bookData],
+      });
+    }
+
+    return bookData; // คืนค่าข้อมูลหนังสือที่สร้างใหม่
   };
 
-  const handleSave = () => {
-    onSave(updatedDetails);
+  // ฟังก์ชันที่ใช้ในการบันทึกหนังสือ
+  const handleSave = async () => {
+    try {
+      // ดึงข้อมูลผู้ใช้ปัจจุบัน
+      const user = auth.currentUser;
+
+      // ตรวจสอบว่ามีข้อมูลหรือไม่
+      if (!title || !author) {
+        alert('กรุณากรอกข้อมูลที่จำเป็น (ชื่อหนังสือและผู้แต่ง)');
+        return;
+      }
+
+      if (user) {
+        // ดึง user's bookshelf ID จาก Firestore
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (userDocSnapshot.exists()) {
+          const userBookshelfId = userDocSnapshot.data().bookshelfId;
+
+          // ใช้ user's bookshelf ID ในการสร้างหรืออัปเดตเอกสารในคอลเล็กชัน "bookshelf"
+          const bookData = {
+            title,
+            bookType,
+            author,
+            purchaseDate,
+            aboutBook,
+          };
+
+          // รอให้หนังสือถูกบันทึกลงใน Firestore และรับข้อมูลหนังสือที่สร้างใหม่
+          const newBookData = await handleSaveToFirestore(userBookshelfId, bookData);
+          alert('บันทึกหนังสือเรียบร้อยแล้ว');
+
+          // ใช้ข้อมูลหนังสือที่สร้างใหม่สำหรับการดำเนินการหรือแสดงผลเพิ่มเติม
+          console.log('ข้อมูลหนังสือที่สร้างใหม่:', newBookData);
+
+          
+        } else {
+          console.error('ไม่พบเอกสารผู้ใช้');
+        }
+      } else {
+        console.error('ไม่พบผู้ใช้');
+      }
+      navigation.navigate('MyBookShelf', { refresh: true });
+    } catch (error) {
+      console.error('เกิดข้อผิดพลาดในการบันทึกหนังสือ', error.message);
+    }
   };
 
   return (
     <View style={createMyBookStyles.modalContainer}>
-      <View style={createMyBookStyles.topBar}>
-      </View>
       <View style={createMyBookStyles.modalContent}>
-        <Text style={createMyBookStyles.label}>Cover Image:</Text>
+        <Text style={createMyBookStyles.label}>ชื่อหนังสือ:</Text>
         <TextInput
           style={createMyBookStyles.input}
-          value={updatedDetails.coverImage}
-          onChangeText={(text) => handleInputChange('coverImage', text)}
+          value={title}
+          onChangeText={(text) => setTitle(text)}
         />
-        <Text style={createMyBookStyles.label}>Book Title:</Text>
+        <Text style={createMyBookStyles.label}>ประเภท:</Text>
         <TextInput
           style={createMyBookStyles.input}
-          value={updatedDetails.title}
-          onChangeText={(text) => handleInputChange('title', text)}
+          value={bookType}
+          onChangeText={(text) => setBookType(text)}
         />
-        <Text style={createMyBookStyles.label}>Type:</Text>
+        <Text style={createMyBookStyles.label}>ผู้แต่ง:</Text>
         <TextInput
           style={createMyBookStyles.input}
-          value={updatedDetails.type}
-          onChangeText={(text) => handleInputChange('type', text)}
+          value={author}
+          onChangeText={(text) => setAuthor(text)}
         />
-        <Text style={createMyBookStyles.label}>Author:</Text>
+        <Text style={createMyBookStyles.label}>วันที่ซื้อ:</Text>
         <TextInput
           style={createMyBookStyles.input}
-          value={updatedDetails.author}
-          onChangeText={(text) => handleInputChange('author', text)}
+          value={purchaseDate}
+          onChangeText={(text) => setPurchaseDate(text)}
         />
-        <Text style={createMyBookStyles.label}>Purchase Date:</Text>
-        <TextInput
-          style={createMyBookStyles.input}
-          value={updatedDetails.purchaseDate}
-          onChangeText={(text) => handleInputChange('purchaseDate', text)}
-        />
-        <Text style={createMyBookStyles.label}>About:</Text>
+        <Text style={createMyBookStyles.label}>เกี่ยวกับหนังสือ:</Text>
         <TextInput
           style={[createMyBookStyles.input, { height: 80 }]}
-          value={updatedDetails.aboutBook}
-          onChangeText={(text) => handleInputChange('aboutBook', text)}
+          value={aboutBook}
+          onChangeText={(text) => setAboutBook(text)}
           multiline={true}
         />
       </View>
       <TouchableOpacity onPress={handleSave} style={createMyBookStyles.actionButton}>
-        <Text style={createMyBookStyles.buttonText}>Save</Text>
+        <Text style={createMyBookStyles.buttonText}>บันทึก</Text>
       </TouchableOpacity>
     </View>
   );

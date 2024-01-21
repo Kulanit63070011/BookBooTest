@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import FloatingButton from '../../components/common/FloatingAddButton';
 import BookDetailsModal from '../../components/BookShelf/BookDetailsModal';
-import { useNavigation } from '@react-navigation/native';
-import { signUpStyles } from '../../style/user/SignUpStyle';
 import BookColumnOfCards from '../../components/BookShelf/BookColumnOfCards';
+import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
+import { signUpStyles } from '../../style/user/SignUpStyle';
+import { auth } from '../../backend/firebase';
+import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 
 const MyBookShelfScreen = () => {
   const navigation = useNavigation();
+
+  // สร้าง state เพื่อเก็บข้อมูลของหนังสือที่ผู้ใช้กรอกใหม่
   const [newBook, setNewBook] = useState({
     title: '',
     author: '',
@@ -17,48 +21,115 @@ const MyBookShelfScreen = () => {
     coverImage: '',
   });
 
-  const [books, setBooks] = useState([
-    { title: 'Book 1', author: 'Author 1', cardText: 'Additional text for Book 1' },
-    { title: 'Book 2', author: 'Author 2', cardText: 'Additional text for Book 2' },
-    { title: 'Book 3', author: 'Author 3', cardText: 'Additional text for Book 3' },
-    { title: 'Book 4', author: 'Author 4', cardText: 'Additional text for Book 4' },
-    { title: 'Book 5', author: 'Author 1', cardText: 'Additional text for Book 5' },
-    { title: 'Book 6', author: 'Author 2', cardText: 'Additional text for Book 6' },
-    { title: 'Book 7', author: 'Author 3', cardText: 'Additional text for Book 7' },
-    { title: 'Book 8', author: 'Author 4', cardText: 'Additional text for Book 8' },
-    { title: 'Book 9', author: 'Author 1', cardText: 'Additional text for Book 9' },
-  ]);
+  // สร้าง state เพื่อเก็บข้อมูลหนังสือทั้งหมดในหนังสือของผู้ใช้
+  const [books, setBooks] = useState([]);
 
-  const [selectedBook, setSelectedBook] = useState(null); // Track the selected book for the modal
+  // สร้าง state เพื่อเก็บข้อมูลหนังสือที่ผู้ใช้เลือกเพื่อดูรายละเอียด
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  // สร้าง state เพื่อควบคุมการแสดงหรือซ่อน Modal ข้อมูลหนังสือ
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const addBook = () => {
-    const isBookExist = books.some((book) => book.title === newBook.title);
-    if (!isBookExist) {
-      setBooks([...books, newBook]);
-      setNewBook({ title: '', author: '', purchaseDate: '', coverImage: '' });
-    } else {
-      alert('This book is already in your bookshelf.');
+  // สร้าง state เพื่อใช้ในการ trigger ให้ useEffect ทำงานเมื่อมีการอัปเดต
+  const [updateTrigger, setUpdateTrigger] = useState(0);
+
+  // ฟังก์ชันสำหรับดึงข้อมูลหนังสือจาก Firebase Firestore
+  const fetchUserBookshelf = async () => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const userDocRef = doc(getFirestore(), 'users', user.uid);
+        const userDocSnapshot = await getDoc(userDocRef);
+
+        if (userDocSnapshot.exists()) {
+          const userBookshelfId = userDocSnapshot.data().bookshelfId;
+          const bookshelfDocRef = doc(getFirestore(), 'bookshelf', userBookshelfId);
+          const bookshelfDocSnapshot = await getDoc(bookshelfDocRef);
+
+          if (bookshelfDocSnapshot.exists()) {
+            const userBooks = bookshelfDocSnapshot.data().books || [];
+            setBooks(userBooks);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user bookshelf:', error.message);
     }
   };
 
+  const isFocused = useIsFocused();
+  // useEffect ที่จะทำงานเมื่อมีการเปลี่ยนแปลงใน updateTrigger
   useEffect(() => {
-    console.log('Modal visibility inside component:', isModalVisible);
-  }, [isModalVisible]);
+    // ตรวจสอบว่าหน้าจออยู่ในสถานะ focus หรือไม่
+    if (isFocused) {
+      fetchUserBookshelf();
+    }
+  }, [isFocused]);
 
-  useEffect(() => {
-    console.log('Book details inside component:', selectedBook);
-  }, [selectedBook]);
+  // ฟังก์ชันสำหรับเพิ่มหนังสือ
+  const addBook = () => {
+    // ... (ไม่ได้เปลี่ยนแปลง)
+  };
 
+  // ฟังก์ชันสำหรับเปิด Modal เพื่อดูรายละเอียดของหนังสือ
   const openBookDetails = (book) => {
-    console.log('Opening book details for:', book);
     setSelectedBook(book);
     setIsModalVisible(true);
   };
 
+  // ฟังก์ชันสำหรับปิด Modal
   const deleteBook = () => {
-    setIsModalVisible(false); // Close the modal after deletion
+    setIsModalVisible(false);
   };
+
+  // ฟังก์ชันที่จะทำงานเมื่อบันทึกการแก้ไขข้อมูลหนังสือ
+  const onSave = async (updatedDetails, bookId) => {
+    updateBook(updatedDetails, bookId);
+    setIsModalVisible(false);
+  };
+
+  // ฟังก์ชันที่ใช้ในการอัปเดตข้อมูลหนังสือ
+  const updateBook = async (updatedDetails, bookId) => {
+    try {
+      const bookIndex = books.findIndex((book) => book.id === bookId);
+  
+      if (bookIndex !== -1) {
+        const updatedBooks = [...books];
+        updatedBooks[bookIndex] = { ...updatedBooks[bookIndex], ...updatedDetails };
+  
+        const user = auth.currentUser;
+        if (user) {
+          const userDocRef = doc(getFirestore(), 'users', user.uid);
+          const userDocSnapshot = await getDoc(userDocRef);
+  
+          if (userDocSnapshot.exists()) {
+            const userBookshelfId = userDocSnapshot.data().bookshelfId;
+            const bookshelfDocRef = doc(getFirestore(), 'bookshelf', userBookshelfId);
+            const bookshelfDocSnapshot = await getDoc(bookshelfDocRef);
+  
+            if (bookshelfDocSnapshot.exists()) {
+              const userBooks = bookshelfDocSnapshot.data().books || [];
+              const updatedUserBooks = [...userBooks];
+              updatedUserBooks[bookIndex] = { ...userBooks[bookIndex], ...updatedDetails };
+  
+              await updateDoc(bookshelfDocRef, { books: updatedUserBooks });  // อัปเดต Firebase Firestore
+            }
+          }
+        }
+  
+        setBooks(updatedBooks);  // อัปเดต local state
+      }
+      setUpdateTrigger((prev) => prev + 1);
+    } catch (error) {
+      console.error('Error updating book:', error.message);
+    }
+  };
+  
+  
+  
+  
+
+
 
   return (
     <View style={signUpStyles.container}>
@@ -85,7 +156,7 @@ const MyBookShelfScreen = () => {
         <ScrollView>
           <View>
             {books.length > 0 ? (
-              <BookColumnOfCards cards={books} onPress={openBookDetails} />
+              <BookColumnOfCards cards={books.reverse()} onPress={openBookDetails} />
             ) : (
               <Text>No books in your bookshelf</Text>
             )}
@@ -99,6 +170,7 @@ const MyBookShelfScreen = () => {
         bookDetails={selectedBook}
         onClose={() => setIsModalVisible(false)}
         onDelete={deleteBook}
+        onSave={onSave}
       />
     </View>
   );

@@ -25,11 +25,18 @@ export default function SignUpScreen() {
       const userId = userCredential.user.uid;
       // บันทึกข้อมูลผู้ใช้ใน Firestore
       const userDocRef = doc(db, 'users', userId); // ปรับให้ใช้ doc และเพิ่มระบุ collection
+       // Generate a unique bookshelf ID for the user
+      const generateUniqueBookshelfId = () => {
+        // Return the generated ID
+        return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      }
+      const bookshelfId = generateUniqueBookshelfId();
       await setDoc(userDocRef, {
         displayName,
         username,
         email,
         aboutMe,
+        bookshelfId,
       });
       alert('Sign up successful');
       navigation.navigate('Login')

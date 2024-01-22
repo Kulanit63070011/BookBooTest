@@ -1,6 +1,6 @@
 // BookDetailsModal.js
 import React, { useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
+import { Modal, View, Text, Pressable, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) => {
@@ -27,6 +27,7 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
   const handleSave = () => {
     // Pass the updated details and book ID to the onSave function
     onSave(updatedDetails, bookDetails.id);
+    onClose(); // Close the modal after saving the data
   };
 
   return (
@@ -34,13 +35,13 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.topBar}>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Pressable onPress={onClose} style={[styles.closeButton, {userSelect: 'none'}]}>
               <Icon name="close" size={30} color="white" />
-            </TouchableOpacity>
+            </Pressable>
           </View>
           <ScrollView>
             <View style={styles.formContainer}>
-                <Image source={require('../../assets/images/human.png')} style={{width: 200, height: 200}}/>
+              <Image source={require('../../assets/images/human.png')} style={{ width: 200, height: 200 }} />
               <Text style={styles.label}>Book Title:</Text>
               <TextInput
                 style={styles.input}
@@ -73,13 +74,13 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
                 multiline={true}
               />
             </View>
-          </ScrollView>
-          <TouchableOpacity onPress={handleSave} style={styles.actionButton}>
+            </ScrollView>
+          <Pressable onPress={handleSave} style={[styles.actionButton, { userSelect: 'auto' }]}>
             <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onDelete} style={[styles.actionButton, { backgroundColor: 'red' }]}>
+          </Pressable>
+          <Pressable onPress={onDelete} style={[styles.actionButton, { backgroundColor: 'red', userSelect: 'auto' }]}>
             <Text style={styles.buttonText}>Delete</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </Modal>

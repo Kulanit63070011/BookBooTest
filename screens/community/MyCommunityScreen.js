@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Image, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import FloatingButton from '../../components/common/FloatingAddButton';
 import { useNavigation } from '@react-navigation/native';
@@ -72,12 +72,12 @@ const MyCommunityScreen = () => {
             value={newCommunity.name}
             onChangeText={(text) => setNewCommunity({ ...newCommunity, name: text })}
           />
-          <TouchableOpacity onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
+          <Pressable onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
             <Image
               source={require('../../assets/icons/searchIcon.png')}
               style={{ width: 24, height: 24 }}
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <ScrollView>
           <View>

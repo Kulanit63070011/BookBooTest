@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Image, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import FloatingButton from '../../components/common/FloatingAddButton';
@@ -64,7 +64,7 @@ const MyBookShelfScreen = () => {
     if (isFocused) {
       fetchUserBookshelf();
     }
-  }, [isFocused]);
+  }, [isFocused, updateTrigger]);
 
   // ฟังก์ชันสำหรับเพิ่มหนังสือ
   const addBook = () => {
@@ -84,8 +84,8 @@ const MyBookShelfScreen = () => {
 
   // ฟังก์ชันที่จะทำงานเมื่อบันทึกการแก้ไขข้อมูลหนังสือ
   const onSave = async (updatedDetails, bookId) => {
-    updateBook(updatedDetails, bookId);
-    setIsModalVisible(false);
+    await updateBook(updatedDetails, bookId);
+    setIsModalVisible(false); // ปิด Modal
   };
 
   // ฟังก์ชันที่ใช้ในการอัปเดตข้อมูลหนังสือ
@@ -146,15 +146,15 @@ const MyBookShelfScreen = () => {
             value={newBook.title}
             onChangeText={(text) => setNewBook({ ...newBook, title: text })}
           />
-          <TouchableOpacity onPress={() => alert('Perform search')} style={{ paddingLeft: 20 }}>
+          <Pressable onPress={() => alert('Perform search')} style={{ paddingLeft: 20, userSelect: 'auto' }}>
             <Image
               source={require('../../assets/icons/searchIcon.png')}
               style={{ width: 24, height: 24 }}
             />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <ScrollView>
-          <View>
+          <View style={{ userSelect: 'none' }} > 
             {books.length > 0 ? (
               <BookColumnOfCards cards={books.reverse()} onPress={openBookDetails} />
             ) : (

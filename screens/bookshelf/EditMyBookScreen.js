@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Pressable, Modal, StyleSheet, TextInput } from 'react-native';
 import { createMyBookStyles } from '../../style/bookshelf/CreateMyBookStyle';
 
 const EditMyBookScreen = ({ visible, bookDetails, onClose, onDelete, onSave }) => {
@@ -65,9 +65,9 @@ const EditMyBookScreen = ({ visible, bookDetails, onClose, onDelete, onSave }) =
                     multiline={true}
                 />
             </View>
-            <TouchableOpacity onPress={handleSave} style={createMyBookStyles.actionButton}>
+            <Pressable onPress={handleSave} style={createMyBookStyles.actionButton}>
                 <Text style={createMyBookStyles.buttonText}>Save</Text>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 };

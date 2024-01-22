@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput, ScrollView, Image } from 'react-native';
+import { View, Text, Pressable, Modal, TextInput, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signUpStyles } from '../../style/user/SignUpStyle';
 import { auth } from '../../backend/firebase';
@@ -29,10 +29,10 @@ const EditProfileScreen = ({ route }) => {
         // Update the navigation options with the new user data
         navigation.setOptions({
           headerRight: () => (
-            <TouchableOpacity onPress={() => onSaveUser()}>
+            <Pressable onPress={() => onSaveUser()}>
               {/* Render your save button or icon */}
               <Text>Save</Text>
-            </TouchableOpacity>
+            </Pressable>
           ),
         });
 
@@ -56,19 +56,19 @@ const EditProfileScreen = ({ route }) => {
     // Update navigation options when the component mounts
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => onSaveUser()}>
+        <Pressable onPress={() => onSaveUser()}>
           {/* Render your save button or icon */}
           <Text>Save</Text>
-        </TouchableOpacity>
+        </Pressable>
       ),
     });
   }, [navigation]);
 
   return (
     <ScrollView>
-      <TouchableOpacity>
+      <Pressable>
         <Image source={require('../../assets/images/human.png')} style={signUpStyles.profileImage} />
-      </TouchableOpacity>
+      </Pressable>
       <View style={signUpStyles.inputContainer}>
         <View style={{ marginBottom: 20 }}>
           <Text style={signUpStyles.inputLabel}>Display Name</Text>
@@ -108,11 +108,11 @@ const EditProfileScreen = ({ route }) => {
           />
         </View>
         <View style={{ paddingBottom: 30 }}>
-          <TouchableOpacity style={signUpStyles.signUpButton} onPress={handleSaveEdit}>
+          <Pressable style={signUpStyles.signUpButton} onPress={handleSaveEdit}>
             <Text style={signUpStyles.signUpButtonText}>
               Save Edit
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </ScrollView>

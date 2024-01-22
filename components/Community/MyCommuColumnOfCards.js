@@ -1,19 +1,19 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 const MyCommuColumnOfCards = ({ cards, onPress, onLeave, cardWidth }) => {
   return (
     <View style={styles.container}>
       {cards.map((community, index) => (
-        <TouchableOpacity key={index} onPress={() => onPress(community)}>
+        <Pressable key={index} onPress={() => onPress(community)}>
           <View style={[styles.cardContainer, { width: cardWidth }]}>
             <Text style={styles.cardTitle}>{community.name}</Text>
             <Text style={styles.cardText}>{community.description}</Text>
-            <TouchableOpacity onPress={() => onLeave(community)} style={styles.leaveButton}>
+            <Pressable onPress={() => onLeave(community)} style={styles.leaveButton}>
               <Text style={styles.leaveButtonText}>Leave</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       ))}
     </View>
   );

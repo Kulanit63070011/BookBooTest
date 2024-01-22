@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Pressable, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
@@ -15,23 +15,39 @@ const CreateMyBookScreen = () => {
 
   // ฟังก์ชันที่ใช้ในการบันทึกข้อมูลหนังสือลงใน Firestore
   const handleSaveToFirestore = async (userBookshelfId, bookData) => {
-    const bookshelfDocRef = doc(db, 'bookshelf', userBookshelfId);
-    const bookshelfDocSnapshot = await getDoc(bookshelfDocRef);
-
-    if (bookshelfDocSnapshot.exists()) {
-      // หากมีหนังสือ, ให้ทำการอัปเดต
-      await updateDoc(bookshelfDocRef, {
-        books: [...bookshelfDocSnapshot.data().books, bookData],
-      });
-    } else {
-      // หากยังไม่มีหนังสือ, ให้ทำการสร้างใหม่
-      await setDoc(bookshelfDocRef, {
-        books: [bookData],
-      });
+    try {
+      const bookshelfDocRef = doc(db, 'bookshelf', userBookshelfId);
+      const bookshelfDocSnapshot = await getDoc(bookshelfDocRef);
+  
+      if (bookshelfDocSnapshot.exists()) {
+        const booksArray = bookshelfDocSnapshot.data().books || [];
+  
+        // หา `bookId` ที่มีค่ามากที่สุดใน booksArray
+        const maxBookId = Math.max(...booksArray.map(book => parseInt(book.id, 10)), -1);
+  
+        // กำหนด `bookId` ให้เพิ่มขึ้นจากค่า `maxBookId` ที่ได้มา
+        const bookWithId = { ...bookData, id: String(maxBookId + 1) };
+  
+        // หากมีหนังสือ, ให้ทำการอัปเดต
+        await updateDoc(bookshelfDocRef, {
+          books: [...booksArray, bookWithId],
+        });
+  
+        return bookWithId; // คืนค่าข้อมูลหนังสือที่สร้างใหม่พร้อม `bookId`
+      } else {
+        // หากยังไม่มีหนังสือ, ให้ทำการสร้างใหม่
+        await setDoc(bookshelfDocRef, {
+          books: [bookData],
+        });
+  
+        return bookData; // คืนค่าข้อมูลหนังสือที่สร้างใหม่ (ไม่มี `bookId`)
+      }
+    } catch (error) {
+      console.error('Error saving book to Firestore:', error.message);
+      throw error;
     }
-
-    return bookData; // คืนค่าข้อมูลหนังสือที่สร้างใหม่
   };
+  
 
   // ฟังก์ชันที่ใช้ในการบันทึกหนังสือ
   const handleSave = async () => {
@@ -117,9 +133,9 @@ const CreateMyBookScreen = () => {
           multiline={true}
         />
       </View>
-      <TouchableOpacity onPress={handleSave} style={createMyBookStyles.actionButton}>
+      <Pressable onPress={handleSave} style={[createMyBookStyles.actionButton, {userSelect: 'auto'}]}>
         <Text style={createMyBookStyles.buttonText}>บันทึก</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

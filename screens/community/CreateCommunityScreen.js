@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { View, Text, Pressable, Modal, TextInput } from 'react-native';
 import { createCommuStyles } from '../../style/community/CreateCommuStyle';
 import BottomNavigator from '../../navigation/BottomNavigator';
 
@@ -53,9 +53,9 @@ const CreateCommunityScreen = ({ visible, communityDetails, onClose, onDelete, o
           multiline={true}
         />
       </View>
-      <TouchableOpacity onPress={handleSave} style={createCommuStyles.actionButton}>
+      <Pressable onPress={handleSave} style={createCommuStyles.actionButton}>
         <Text style={createCommuStyles.buttonText}>Save</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { Modal, View, Text, Pressable, StyleSheet, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const PostDetailsModal = ({ visible, post, onClose }) => {
@@ -49,9 +49,9 @@ const PostDetailsModal = ({ visible, post, onClose }) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.topBar}>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Pressable onPress={onClose} style={styles.closeButton}>
               <Icon name="close" size={30} color="red" />
-            </TouchableOpacity>
+            </Pressable>
           </View>
           <ScrollView>
             <View style={styles.formContainer}>
@@ -62,18 +62,18 @@ const PostDetailsModal = ({ visible, post, onClose }) => {
 
               {/* Display like and dislike counts */}
               <View style={styles.likesContainer}>
-                <TouchableOpacity onPress={handleLike} style={styles.likeButton}>
+                <Pressable onPress={handleLike} style={styles.likeButton}>
                   <Icon name="thumb-up" size={20} color="green" />
                   <Text style={styles.likeButtonText}>Like</Text>
-                </TouchableOpacity>
+                </Pressable>
                 <Text style={styles.likeCount}>{likes}</Text>
               </View>
 
               <View style={styles.dislikesContainer}>
-                <TouchableOpacity onPress={handleDislike} style={styles.dislikeButton}>
+                <Pressable onPress={handleDislike} style={styles.dislikeButton}>
                   <Icon name="thumb-down" size={20} color="red" />
                   <Text style={styles.dislikeButtonText}>Dislike</Text>
-                </TouchableOpacity>
+                </Pressable>
                 <Text style={styles.dislikeCount}>{dislikes}</Text>
               </View>
 
@@ -93,9 +93,9 @@ const PostDetailsModal = ({ visible, post, onClose }) => {
                 placeholder="Add a comment..."
                 multiline={true}
               />
-              <TouchableOpacity onPress={handleAddComment} style={styles.commentButton}>
+              <Pressable onPress={handleAddComment} style={styles.commentButton}>
                 <Text style={styles.commentButtonText}>Add Comment</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </ScrollView>
         </View>

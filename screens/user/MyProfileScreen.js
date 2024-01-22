@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { myProfileStyles } from '../../style/user/MyProfileStyle';
 import { auth } from '../../backend/firebase';
 import { getDoc } from 'firebase/firestore';
@@ -115,12 +115,12 @@ const MyProfileScreen = ({ navigation }) => {
         <Text style={myProfileStyles.email}>{user.email}</Text>
         <Text style={myProfileStyles.aboutMe}>{user.aboutMe}</Text>
       </View>
-      <TouchableOpacity style={myProfileStyles.editProfileButton} onPress={handleEditProfile}>
+      <Pressable style={myProfileStyles.editProfileButton} onPress={handleEditProfile}>
         <Text>Edit Profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={myProfileStyles.logoutButton} onPress={handleLogout}>
+      </Pressable>
+      <Pressable style={myProfileStyles.logoutButton} onPress={handleLogout}>
         <Text>Logout</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

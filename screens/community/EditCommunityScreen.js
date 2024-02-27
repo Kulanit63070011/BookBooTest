@@ -60,8 +60,8 @@ const EditCommunityScreen = ({ visible, communityDetails, onClose, onDelete, onS
         <Text style={createCommuStyles.buttonText}>Save</Text>
       </Pressable>
       <Pressable onPress={handleDelete} style={createCommuStyles.actionButton}>
-          <Text style={createCommuStyles.buttonText}>Delete</Text>
-        </Pressable>
+        <Text style={createCommuStyles.buttonText}>Delete</Text>
+      </Pressable>
     </View>
   );
 };

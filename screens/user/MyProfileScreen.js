@@ -71,6 +71,7 @@ const MyProfileScreen = ({ navigation }) => {
     }
   };
 
+  // MyProfileScreen.js
   const handleEditProfile = async () => {
     navigation.navigate('EditProfile', {
       visible: true,
@@ -81,13 +82,14 @@ const MyProfileScreen = ({ navigation }) => {
         email: user.email,
         aboutMe: user.aboutMe,
       },
+      setUser: setUser, // เพิ่มการส่ง setUser ไปยังหน้า EditProfileScreen
       onSave: async (updatedUser) => {
-        // ทำการอัพเดท state หรือทำการ refresh หน้าข้อมูล
+        // ทำการอัปเดท state หรือทำการ refresh หน้าข้อมูล
         setUser(updatedUser);
-  
-        // เพิ่มการอัพเดทข้อมูลใน Firestore โดยใช้ user.id
+
+        // เพิ่มการอัปเดทข้อมูลใน Firestore โดยใช้ user.id
         const userDocRef = doc(getFirestore(), 'users', updatedUser.id);
-  
+
         try {
           await updateDoc(userDocRef, {
             displayName: updatedUser.displayName,
@@ -106,7 +108,7 @@ const MyProfileScreen = ({ navigation }) => {
       },
     });
   };
-  
+
   return (
     <View style={myProfileStyles.container}>
       <View style={myProfileStyles.profileContainer}>

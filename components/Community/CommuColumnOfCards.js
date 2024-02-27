@@ -6,7 +6,7 @@ const CommuColumnOfCards = ({ cards, onPress, cardWidth }) => {
     <View style={styles.container}>
       {cards.map((community, index) => (
         <Pressable key={index} onPress={() => onPress(community)} style={{userSelect: 'auto'}}>
-          <View style={[styles.cardContainer, { width: cardWidth }]}>
+          <View style={[styles.cardContainer]}>
             <Text style={styles.cardTitle}>{community.name}</Text>
             <Text style={styles.cardText}>{community.description}</Text>
           </View>
@@ -27,17 +27,22 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#E21E1E',
     borderRadius: 10,
+    width: 170,
     elevation: 2,
-    height: 120,
+    height: 200,
   },
   cardTitle: {
     fontWeight: 'bold',
     fontSize: 16,
   },
+  cardAuthor: {
+    color: '#555',
+    fontSize: 14,
+  },
   cardText: {
     marginTop: 8,
     fontSize: 12,
-    color: '#fff',
+    color: '#777',
   },
 });
 

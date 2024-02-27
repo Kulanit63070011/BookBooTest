@@ -3,9 +3,7 @@ import { View, Text, TextInput, Image, Pressable, ScrollView, SafeAreaView } fro
 import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
 import { signUpStyles } from '../../style/user/SignUpStyle';
 import { allCommunityStyles } from '../../style/community/AllCommunityStyle';
-import CommunityDetailsModal from '../../components/Community/CommunityDetailsModal';
 import CommuColumnOfCards from '../../components/Community/CommuColumnOfCards';
-import FloatingButton from '../../components/common/FloatingAddButton';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import UserDetailsModal from '../../components/User/UserDetailsModal';
 

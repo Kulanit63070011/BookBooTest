@@ -1,5 +1,5 @@
 import { View, Text, Pressable, Image, TextInput } from 'react-native'
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native';
 import { loginStyles } from '../../style/user/LoginStyle';
@@ -8,8 +8,8 @@ import { signInWithEmailAndPassword } from '../../backend/firebase';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('n@n.com');
+  const [password, setPassword] = useState('nnnnnn');
 
   const handleLogin = async () => {
     try {
@@ -83,7 +83,6 @@ export default function LoginScreen() {
           </Pressable>
         </View>
       </View>
-
     </View>
   )
 }

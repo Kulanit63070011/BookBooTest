@@ -6,19 +6,19 @@ const BottomNavigator = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <Pressable style={styles.navItem} onPress={() => navigation.navigate('SignUp')}>
+            <Pressable style={styles.navItem} onPress={() => navigation.navigate('AllCommunity')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
                 <Text style={styles.navText}>หาปาร์ตี้</Text>
             </Pressable>
-            <Pressable style={styles.navItem} onPress={() => navigation.navigate('SignUp')}>
+            <Pressable style={styles.navItem} onPress={() => navigation.navigate('MyCommunity')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
                 <Text style={styles.navText}>ปาร์ตี้ของฉัน</Text>
             </Pressable>
-            <Pressable style={styles.navItem} onPress={() => navigation.navigate('SignUp')}>
+            <Pressable style={styles.navItem} onPress={() => navigation.navigate('Community')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
                 <Text style={styles.navText}>แชท</Text>
             </Pressable>
-            <Pressable style={styles.navItem} onPress={() => navigation.navigate('SignUp')}>
+            <Pressable style={styles.navItem} onPress={() => navigation.navigate('MyProfile')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
                 <Text style={styles.navText}>โปรไฟล์</Text>
             </Pressable>

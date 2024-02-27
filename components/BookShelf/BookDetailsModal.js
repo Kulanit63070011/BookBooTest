@@ -1,4 +1,3 @@
-// BookDetailsModal.js
 import React, { useState } from 'react';
 import { Modal, View, Text, Pressable, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,13 +7,8 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
     return null;
   }
 
-  const { title, author, purchaseDate, bookType, aboutBook } = bookDetails;
   const [updatedDetails, setUpdatedDetails] = useState({
-    title,
-    author,
-    purchaseDate,
-    bookType,
-    aboutBook,
+    ...bookDetails,
   });
 
   const handleInputChange = (property, value) => {
@@ -25,7 +19,6 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
   };
 
   const handleSave = () => {
-    // Pass the updated details and book ID to the onSave function
     onSave(updatedDetails, bookDetails.id);
     onClose(); // Close the modal after saving the data
   };
@@ -35,7 +28,7 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.topBar}>
-            <Pressable onPress={onClose} style={[styles.closeButton, {userSelect: 'none'}]}>
+            <Pressable onPress={onClose} style={[styles.closeButton, { userSelect: 'none' }]}>
               <Icon name="close" size={30} color="white" />
             </Pressable>
           </View>
@@ -66,7 +59,7 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
                 value={updatedDetails.purchaseDate}
                 onChangeText={(text) => handleInputChange('purchaseDate', text)}
               />
-              <Text style={styles.label}>About:</Text>
+              <Text style={styles.label}>About Book:</Text>
               <TextInput
                 style={[styles.input, { height: 80 }]}
                 value={updatedDetails.aboutBook}
@@ -74,7 +67,7 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
                 multiline={true}
               />
             </View>
-            </ScrollView>
+          </ScrollView>
           <Pressable onPress={handleSave} style={[styles.actionButton, { userSelect: 'auto' }]}>
             <Text style={styles.buttonText}>Save</Text>
           </Pressable>

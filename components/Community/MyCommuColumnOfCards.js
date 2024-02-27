@@ -1,17 +1,27 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const MyCommuColumnOfCards = ({ cards, onPress, onLeave, cardWidth }) => {
+const MyCommuColumnOfCards = ({ cards, onPress, onLeave, cardWidth, isOwner }) => {
   return (
     <View style={styles.container}>
       {cards.map((community, index) => (
         <Pressable key={index} onPress={() => onPress(community)}>
           <View style={[styles.cardContainer, { width: cardWidth }]}>
-            <Text style={styles.cardTitle}>{community.name}</Text>
+            <View style={styles.header}>
+              <Text style={styles.cardTitle}>{community.name}</Text>
+            </View>
             <Text style={styles.cardText}>{community.description}</Text>
-            <Pressable onPress={() => onLeave(community)} style={styles.leaveButton}>
-              <Text style={styles.leaveButtonText}>Leave</Text>
-            </Pressable>
+            {isOwner(community) && (
+              <Pressable onPress={() => alert('Edit pressed for ' + community.name)} style={styles.leaveButton}>
+                <Icon name="edit" size={24} color="blue" />
+              </Pressable>
+            )}
+            {!isOwner(community) && (
+              <Pressable onPress={() => onLeave(community)} style={styles.leaveButton}>
+                <Text style={styles.leaveButtonText}>Leave</Text>
+              </Pressable>
+            )}
           </View>
         </Pressable>
       ))}
@@ -52,10 +62,21 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    userSelect: 'none', // Use userSelect style property
   },
   leaveButtonText: {
     color: '#E21E1E',
     fontWeight: 'bold',
+  },
+  editButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    userSelect: 'none', // Use userSelect style property
   },
 });
 

@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Pressable, Modal, TextInput, ScrollView, Image } from 'react-native';
+import { View, Text, Pressable, TextInput, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signUpStyles } from '../../style/user/SignUpStyle';
-import { auth } from '../../backend/firebase';
-import { getDoc, updateDoc, doc } from 'firebase/firestore';
-import { getFirestore } from 'firebase/firestore';
-import { setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 const EditProfileScreen = ({ route }) => {
-  const { user, onClose } = route.params;
+  const { user, onClose, setUser } = route.params; // เพิ่ม setUser จาก route.params
   const [displayName, setDisplayName] = useState(user.displayName);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
@@ -17,7 +14,7 @@ const EditProfileScreen = ({ route }) => {
   const handleSaveEdit = async () => {
     if (user.id) {
       const userDocRef = doc(getFirestore(), 'users', user.id);
-
+  
       try {
         await setDoc(userDocRef, {
           displayName,
@@ -25,30 +22,24 @@ const EditProfileScreen = ({ route }) => {
           email,
           aboutMe,
         });
-
-        // Update the navigation options with the new user data
-        navigation.setOptions({
-          headerRight: () => (
-            <Pressable onPress={() => onSaveUser()}>
-              {/* Render your save button or icon */}
-              <Text>Save</Text>
-            </Pressable>
-          ),
-        });
-
+  
         console.log('User data updated in Firestore');
+  
+        // ดึงข้อมูลผู้ใช้ใหม่จาก Firestore และอัปเดตสถานะในแอพพลิเคชัน
+        const updatedUserSnapshot = await getDoc(userDocRef);
+        const updatedUser = updatedUserSnapshot.data();
+        setUser(updatedUser); // อัปเดตสถานะผู้ใช้ในแอพพลิเคชัน
+  
+        // Increment updateTrigger to trigger useEffect in MyBookShelfScreen
+        setUpdateTrigger(prev => prev + 1);
+  
       } catch (error) {
         console.error('Error updating user data in Firestore', error.message);
       }
-
+  
       onClose();
     }
-  };
-
-  const onSaveUser = () => {
-    // Your onSave logic here
-    console.log('Save user function called');
-  };
+  };  
 
   const navigation = useNavigation();
 

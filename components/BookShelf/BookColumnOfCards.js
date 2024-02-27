@@ -9,7 +9,7 @@ const BookColumnOfCards = ({ cards, onPress }) => {
           <View style={styles.cardContainer}>
             <Text style={styles.cardTitle}>{book.title}</Text>
             <Text style={styles.cardAuthor}>{book.author}</Text>
-            <Text style={styles.cardText}>{book.cardText}</Text>
+            <Text style={styles.cardText}>{book.aboutBook}</Text>
           </View>
         </Pressable>
       ))}

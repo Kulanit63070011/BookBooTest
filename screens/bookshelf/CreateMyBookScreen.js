@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, TextInput } from 'react-native';
+import { View, Text, Pressable, TextInput, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { doc, collection, addDoc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
@@ -86,44 +86,47 @@ const CreateMyBookScreen = () => {
   };
 
   return (
-    <View style={createMyBookStyles.modalContainer}>
-      <View style={createMyBookStyles.modalContent}>
-        <Text style={createMyBookStyles.label}>Book Title:</Text>
-        <TextInput
-          style={createMyBookStyles.input}
-          value={title}
-          onChangeText={(text) => setTitle(text)}
-        />
-        <Text style={createMyBookStyles.label}>Book Type:</Text>
-        <TextInput
-          style={createMyBookStyles.input}
-          value={bookType}
-          onChangeText={(text) => setBookType(text)}
-        />
-        <Text style={createMyBookStyles.label}>Author:</Text>
-        <TextInput
-          style={createMyBookStyles.input}
-          value={author}
-          onChangeText={(text) => setAuthor(text)}
-        />
-        <Text style={createMyBookStyles.label}>Purchase Date:</Text>
-        <TextInput
-          style={createMyBookStyles.input}
-          value={purchaseDate}
-          onChangeText={(text) => setPurchaseDate(text)}
-        />
-        <Text style={createMyBookStyles.label}>About the Book:</Text>
-        <TextInput
-          style={[createMyBookStyles.input, { height: 80 }]}
-          value={aboutBook}
-          onChangeText={(text) => setAboutBook(text)}
-          multiline={true}
-        />
+    <ScrollView>
+      <View style={createMyBookStyles.modalContainer}>
+        <Image source={require('../../assets/images/bookcover.png')} style={createMyBookStyles.modalImage} /> 
+        <View style={createMyBookStyles.modalContent}>
+          <Text style={createMyBookStyles.label}>Book Title:</Text>
+          <TextInput
+            style={createMyBookStyles.input}
+            value={title}
+            onChangeText={(text) => setTitle(text)}
+          />
+          <Text style={createMyBookStyles.label}>Book Type:</Text>
+          <TextInput
+            style={createMyBookStyles.input}
+            value={bookType}
+            onChangeText={(text) => setBookType(text)}
+          />
+          <Text style={createMyBookStyles.label}>Author:</Text>
+          <TextInput
+            style={createMyBookStyles.input}
+            value={author}
+            onChangeText={(text) => setAuthor(text)}
+          />
+          <Text style={createMyBookStyles.label}>Purchase Date:</Text>
+          <TextInput
+            style={createMyBookStyles.input}
+            value={purchaseDate}
+            onChangeText={(text) => setPurchaseDate(text)}
+          />
+          <Text style={createMyBookStyles.label}>About the Book:</Text>
+          <TextInput
+            style={[createMyBookStyles.input, { height: 80 }]}
+            value={aboutBook}
+            onChangeText={(text) => setAboutBook(text)}
+            multiline={true}
+          />
+        </View>
+        <Pressable onPress={handleSave} style={createMyBookStyles.actionButton}>
+          <Text style={createMyBookStyles.buttonText}>Save</Text>
+        </Pressable>
       </View>
-      <Pressable onPress={handleSave} style={[createMyBookStyles.actionButton, { userSelect: 'auto' }]}>
-        <Text style={createMyBookStyles.buttonText}>Save</Text>
-      </Pressable>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, Pressable, TextInput, StyleSheet, ScrollView } from 'react-native';
+import React from 'react';
+import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CalendarDetailsModal = ({ isVisible, onClose, event }) => {
@@ -13,16 +13,20 @@ const CalendarDetailsModal = ({ isVisible, onClose, event }) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.topBar}>
-          <Pressable onPress={onClose} style={styles.closeButton}>
+            <Pressable onPress={onClose} style={styles.closeButton}>
               <Icon name="close" size={30} color="white" />
             </Pressable>
           </View>
-          <ScrollView>
-            <View style={styles.formContainer}>
-                <Text style={styles.eventName}>{event.eventName}</Text>
-                <Text style={styles.timestamp}>{event.timestamp.toDateString()}</Text>
-            </View>
-          </ScrollView>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.label}>ชื่อกิจกรรม:</Text>
+            <Text style={styles.value}>{event.name}</Text>
+            <Text style={styles.label}>วันที่เริ่ม:</Text>
+            <Text style={styles.value}>{event.startDate}</Text>
+            <Text style={styles.label}>เวลาเริ่ม:</Text>
+            <Text style={styles.value}>{event.startTime}</Text>
+            <Text style={styles.label}>รายละเอียด:</Text>
+            <Text style={styles.value}>{event.description}</Text>
+          </View>
         </View>
       </View>
     </Modal>
@@ -42,38 +46,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
   },
-  eventName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  timestamp: {
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  closeButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  closeButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    width: '80%',
-    maxHeight: '80%',
-    overflow: 'hidden',
-  },
   topBar: {
     padding: 20,
     flexDirection: 'row',
@@ -84,9 +56,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  formContainer: {
+  detailsContainer: {
     marginBottom: 20,
-    paddingHorizontal: 20,
   },
   label: {
     marginBottom: 5,
@@ -94,25 +65,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+  value: {
     marginBottom: 10,
-    paddingLeft: 5,
-    color: 'black',
-  },
-  actionButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
     fontSize: 16,
+    color: 'black',
   },
 });
 

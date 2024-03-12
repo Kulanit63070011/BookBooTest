@@ -29,7 +29,7 @@ const styles = {
     zIndex: 2,
   },
   button: {
-    backgroundColor: 'red',
+    backgroundColor: '#4542C1',
     width: 80,
     height: 80,
     borderRadius: 25,

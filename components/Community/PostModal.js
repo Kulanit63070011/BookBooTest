@@ -47,7 +47,7 @@ const PostDetailsModal = ({ visible, post, onClose, refreshPostData, communityId
       // Check if newComment is defined and not an empty string after trimming
       if (newComment && newComment.trim() !== '') {
         // Check if communityId and post.id are valid
-        if (!communityId || !post.id) { // ใช้งานค่า communityId และ post.id ที่รับเข้ามา
+        if (!communityId || !post.id) { 
           console.error('Invalid communityId or post id.');
           return;
         }
@@ -100,35 +100,31 @@ const PostDetailsModal = ({ visible, post, onClose, refreshPostData, communityId
             </Pressable>
           </View>
           <ScrollView>
-            <View style={styles.formContainer}>
-              <Text style={styles.label}>Post Title:</Text>
-              <Text style={styles.content}>{title}</Text>
-              <Text style={styles.label}>Content:</Text>
+            <View style={styles.postDetails}>
+              <Text style={styles.title}>{title}</Text>
               <Text style={styles.content}>{content}</Text>
-              <Text style={styles.label}>Created By:</Text>
-              <Text style={styles.content}>{createdByName}</Text>
+              <Text style={styles.createdBy}>By {createdByName}</Text>
               <View style={styles.likesContainer}>
                 <Icon name="thumb-up" size={20} color="green" />
                 <Text style={styles.likeCount}>{likes} Likes</Text>
-              </View>
-              <View style={styles.dislikesContainer}>
                 <Icon name="thumb-down" size={20} color="red" />
                 <Text style={styles.dislikeCount}>{dislikes} Dislikes</Text>
               </View>
             </View>
-            {comments.map((comment, index) => (
-              <View key={`${comment.id}-${index}`}>
-                <View>
-                  <Text>{comment.content}</Text>
-                  <Text>{comment.createdByName}</Text>
-                  {comment.createdAt instanceof Date ? (
-                    <Text>{comment.createdAt.toLocaleString()}</Text>
+            <View style={styles.commentsContainer}>
+              <Text style={styles.commentsHeader}>Comments</Text>
+              {comments.map((comment, index) => (
+                <View key={`${comment.id}-${index}`} style={styles.comment}>
+                  <Text style={styles.commentContent}>{comment.content}</Text>
+                  <Text style={styles.commentAuthor}>By {comment.createdByName}</Text>
+                  <Text style={styles.commentDate}>{comment.createdAt instanceof Date ? (
+                    comment.createdAt.toLocaleString()
                   ) : (
-                    <Text>{new Date(comment.createdAt.toDate()).toLocaleString()}</Text>
-                  )}
+                    new Date(comment.createdAt.toDate()).toLocaleString()
+                  )}</Text>
                 </View>
-              </View>
-            ))}
+              ))}
+            </View>
             <TextInput
               style={styles.commentInput}
               placeholder="Add a comment..."
@@ -169,67 +165,55 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  formContainer: {
+  postDetails: {
     marginBottom: 20,
   },
-  label: {
-    marginBottom: 5,
-    fontSize: 16,
+  title: {
+    fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
+    marginBottom: 10,
   },
   content: {
-    marginBottom: 10,
     fontSize: 16,
-    color: 'black',
+    marginBottom: 10,
+  },
+  createdBy: {
+    fontSize: 14,
+    color: 'gray',
+    marginBottom: 10,
   },
   likesContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
-  },
-  likeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  likeButtonText: {
-    marginLeft: 5,
-    color: 'green',
   },
   likeCount: {
-    fontSize: 16,
-    color: 'green',
-  },
-  dislikesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  dislikeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  dislikeButtonText: {
     marginLeft: 5,
-    color: 'red',
+    marginRight: 20,
   },
   dislikeCount: {
-    fontSize: 16,
-    color: 'red',
+    marginRight: 20,
   },
   commentsContainer: {
-    marginTop: 20,
+    marginBottom: 20,
   },
   commentsHeader: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  commentText: {
+  comment: {
+    marginBottom: 10,
+  },
+  commentContent: {
     fontSize: 16,
-    marginBottom: 5,
+  },
+  commentAuthor: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  commentDate: {
+    fontSize: 12,
+    color: 'gray',
   },
   commentInput: {
     height: 80,

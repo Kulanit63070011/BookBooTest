@@ -18,7 +18,6 @@ import ChatScreen from '../screens/chat/ChatScreen';
 import AllChatScreen from '../screens/chat/AllChatScreen';
 import MyProfileScreen from '../screens/user/MyProfileScreen';
 import MyNotificationScreen from '../screens/user/MyNotificationScreen';
-import EditMyBookScreen from '../screens/bookshelf/EditMyBookScreen';
 import CalendarCommunityScreen from '../screens/community/calendar/CalendarCommunityScreen';
 import CommunityScreen from '../screens/community/CommunityScreen';
 
@@ -74,9 +73,9 @@ const AppNavigation = () => {
           component={EditProfileScreen}
         />
         <Stack.Screen
-          name="Chat"
+          name="Chat" // Specify the name for ChatScreen
           options={{ headerShown: true }}
-          component={ChatScreen}
+          component={ChatScreen} // Use the ChatScreen component
         />
         <Stack.Screen
           name="AllChat"
@@ -88,8 +87,6 @@ const AppNavigation = () => {
           options={{ headerShown: true }}
           component={MyNotificationScreen}
         />
-
-
         <Stack.Screen
           name="CreateMyBook"
           options={{ headerShown: true }}
@@ -97,16 +94,9 @@ const AppNavigation = () => {
         />
         <Stack.Screen
           name="MyBookShelf"
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
           component={MyBookShelfScreen}
         />
-        <Stack.Screen
-          name="EditMyBook"
-          options={{ headerShown: false }}
-          component={EditMyBookScreen}
-        />
-
-
         <Stack.Screen
           name="CreateCommunity"
           options={{ headerShown: true }}

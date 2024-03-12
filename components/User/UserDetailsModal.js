@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, Pressable, TextInput, StyleSheet, ScrollView } from 'react-native';
+import React from 'react';
+import { Modal, View, Text, Pressable, ScrollView, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+import { db } from '../../backend/firebase'; // Import db จาก firebase
+import { addDoc, collection } from 'firebase/firestore'; // เพิ่ม collection และ addDoc ไปในการนำเข้า
+import { auth } from '../../backend/firebase';
 
-const UserDetailsModal = ({ visible, communityDetails, onClose, onDelete, onJoinCommunity }) => {
-  if (!visible || !communityDetails) {
+const UserDetailsModal = ({ visible, userDetails, onClose, partnerUid, handleCreateChatRoom }) => {
+  // โค้ดอื่น ๆ ที่ข้ามไป
+  const handleChat = async () => {
+    onClose();
+    navigation.navigate('Chat', { userDetails });
+
+    // Check if user and userDetails are valid
+    if (!user || !userDetails.displayName) {
+      console.error('Error creating chat room: User is undefined or has no displayName');
+      return;
+    }
+
+    // Create chat room with the partnerUid
+    handleCreateChatRoom(partnerUid);
+  };
+  const navigation = useNavigation();
+  const user = auth.currentUser;
+
+  if (!visible || !userDetails || !user) { // ตรวจสอบ user ด้วย
     return null;
   }
 
-  const { name, description } = communityDetails;
-  const [updatedDetails, setUpdatedDetails] = useState({
-    name,
-    description,
-  });
-
-  const handleInputChange = (property, value) => {
-    setUpdatedDetails({
-      ...updatedDetails,
-      [property]: value,
-    });
-  };
-
-  const handleJoinCommunity = () => {
-    onJoinCommunity(updatedDetails);
-  };
+  const { displayName, uid } = user;
 
   return (
     <Modal visible={visible} animationType="slide">
@@ -34,13 +40,15 @@ const UserDetailsModal = ({ visible, communityDetails, onClose, onDelete, onJoin
         </View>
         <ScrollView>
           <View style={styles.modalContent}>
-            <Text style={styles.label}>Community Image:</Text>
-            <Text style={styles.label}>Community Name:</Text>
-            <Text style={styles.label}>Description:</Text>
+            <Text style={styles.label}>Name: {userDetails.displayName}</Text>
+            <Text style={styles.label}>About Me: {userDetails.aboutMe}</Text>
+            <View style={styles.imageContainer}>
+              <Image source={require('../../assets/images/human.png')} style={styles.profileImage} />
+            </View>
           </View>
         </ScrollView>
-        <Pressable onPress={handleJoinCommunity} style={styles.actionButton}>
-          <Text style={styles.buttonText}>Join Community</Text>
+        <Pressable onPress={handleChat} style={styles.actionButton}>
+          <Text style={styles.buttonText}>CHAT</Text>
         </Pressable>
       </View>
     </Modal>
@@ -66,18 +74,12 @@ const styles = StyleSheet.create({
   modalContent: {
     marginBottom: 20,
     paddingHorizontal: 20,
+    alignItems: 'center', // Center content horizontally
   },
   label: {
     marginBottom: 5,
-    fontSize: 16,
+    fontSize: 26,
     fontWeight: 'bold',
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 5,
   },
   actionButton: {
     backgroundColor: 'blue',
@@ -90,6 +92,14 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
+  },
+  imageContainer: {
+    alignItems: 'center', // Center content horizontally
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 75, // Half of width and height to make it a circle
   },
 });
 

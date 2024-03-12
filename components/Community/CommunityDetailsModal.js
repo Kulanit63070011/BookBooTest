@@ -1,6 +1,5 @@
-// CommunityDetailsModal.js
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, Pressable, TextInput, StyleSheet, ScrollView } from 'react-native';
+import { Modal, View, Text, Pressable, TextInput, StyleSheet, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db, auth } from '../../backend/firebase';
@@ -68,16 +67,19 @@ const CommunityDetailsModal = ({ visible, communityDetails, onClose, onDelete, o
               </Pressable>
             </View>
             {/* Display community details */}
-            <View style={styles.modalContent}>
+            <View style={styles.content}>
+              <View style={{alignItems: 'center'}}>
+                <Image source={require('../../assets/images/bookcover.png')} style={styles.bookImage} />
+              </View>
               <Text style={styles.label}>Community Name:</Text>
-              <Text>{name}</Text>
+              <Text style={styles.detail}>{name}</Text>
               <Text style={styles.label}>Description:</Text>
-              <Text>{description}</Text>
+              <Text style={styles.detail}>{description}</Text>
               {/* Display members */}
-              <Text>{members.length} members</Text>
+              <Text style={styles.memberCount}>{members.length} members</Text>
             </View>
             <View style={styles.actionButtonsContainer}>
-              <Pressable onPress={handleJoinCommunity} style={styles.actionButton}>
+              <Pressable onPress={handleJoinCommunity} style={styles.joinButton}>
                 <Text style={styles.buttonText}>Join Community</Text>
               </Pressable>
             </View>
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: '#FD1919',
     borderRadius: 10,
     width: '80%',
     maxHeight: '80%',
@@ -108,34 +110,51 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   closeButton: {
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
   },
+  content: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
   label: {
-    marginBottom: 5,
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
-    paddingHorizontal: 20,
+    color: 'white',
+    marginBottom: 5,
+  },
+  detail: {
+    fontSize: 16,
+    color: 'white',
+    marginBottom: 10,
+  },
+  memberCount: {
+    fontSize: 14,
+    color: 'white',
+    marginTop: 5,
+    fontWeight: 'bold',
   },
   actionButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 20,
-  },
-  actionButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    flex: 1,
-    marginHorizontal: 10,
+    justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 20,
+  },
+  joinButton: {
+    backgroundColor: '#5B42C1',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
   },
   buttonText: {
     color: 'white',
-    textAlign: 'center',
     fontSize: 16,
+  },
+  bookImage: {
+    width: 170,
+    height: 200,
+    resizeMode: 'contain',
   },
 });
 

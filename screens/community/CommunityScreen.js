@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Pressable, TextInput, Button } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { addDoc, collection, onSnapshot, query, where, orderBy, doc, deleteDoc, updateDoc, getDocs, getDoc } from 'firebase/firestore';
+import { addDoc, collection, onSnapshot, query, orderBy, doc, updateDoc, getDocs, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../backend/firebase';
 import CreatePostCommunityModal from '../../components/Community/CreatePostCommunityModal';
 import EditPostCommunityModal from '../../components/Community/EditPostCommunityModal';
 import communityStyles from '../../style/community/CommunityStyle';
 import PostDetailsModal from '../../components/Community/PostModal';
+import UserDetailsModal from '../../components/User/UserDetailsModal';
+import { useNavigation } from '@react-navigation/native';
 
 const CommunityScreen = ({ route }) => {
+    const navigation = useNavigation();
     const [isCreatePostModalVisible, setCreatePostModalVisible] = useState(false);
     const [posts, setPosts] = useState([]);
     const [communityId, setCommunityId] = useState(null);
@@ -18,6 +20,9 @@ const CommunityScreen = ({ route }) => {
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [selectedPostDetails, setSelectedPostDetails] = useState(null);
     const [isEditPostModalVisible, setEditPostModalVisible] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isUserDetailsModalVisible, setUserDetailsModalVisible] = useState(false);
+    const [partnerUid, setPartnerUid] = useState(null);
 
     useEffect(() => {
         const { communityId } = route.params;
@@ -30,7 +35,6 @@ const CommunityScreen = ({ route }) => {
 
         const fetchData = async () => {
             if (communityId) {
-                // Query posts in the 'Posts' collection of that community
                 const postsQuery = query(
                     collection(db, 'communities', communityId, 'Posts'),
                     orderBy('createdDate', 'desc')
@@ -57,19 +61,17 @@ const CommunityScreen = ({ route }) => {
                 return;
             }
 
-            // Get user data from the 'users' collection
             const userDoc = await getDoc(doc(db, 'users', user.uid));
             const userData = userDoc.data();
 
-            // Add a new post to the 'Posts' collection of that community
             await addDoc(collection(db, 'communities', communityId, 'Posts'), {
                 title: newPost.title,
                 content: newPost.content,
                 createdBy: user.uid,
                 createdByName: userData.displayName,
                 createdDate: new Date(),
-                likes: 0, // กำหนดค่า likes เป็น 0 เมื่อสร้างโพสต์ใหม่
-                dislikes: 0, // กำหนดค่า dislikes เป็น 0 เมื่อสร้างโพสต์ใหม่
+                likes: 0,
+                dislikes: 0,
             });
 
             setCreatePostModalVisible(false);
@@ -80,9 +82,6 @@ const CommunityScreen = ({ route }) => {
 
     const handleEditPost = async (postId, editedContent) => {
         try {
-            console.log('Edited content:', editedContent);
-            console.log('Post ID:', postId);
-
             if (!communityId) {
                 console.error('Community ID is undefined.');
                 return;
@@ -94,7 +93,6 @@ const CommunityScreen = ({ route }) => {
             await updateDoc(doc(db, 'communities', communityId, 'Posts', postId), {
                 content: editedContent,
             });
-            // Handle other logic as needed...
         } catch (error) {
             console.error('Error editing post:', error.message);
         }
@@ -106,21 +104,17 @@ const CommunityScreen = ({ route }) => {
             const postSnapshot = await getDoc(postRef);
             const postData = postSnapshot.data();
 
-            // Check if the post data exists
             if (!postData) {
                 console.error('Post data is undefined');
                 return;
             }
 
-            // Initialize arrays if they are undefined
             const likedBy = postData.likedBy || [];
             const dislikedBy = postData.dislikedBy || [];
 
-            // Check if the user already liked or disliked this post
             const userLiked = likedBy.includes(auth.currentUser.uid);
             const userDisliked = dislikedBy.includes(auth.currentUser.uid);
 
-            // Update like or dislike count based on the current state
             let updatedLikes = postData.likes;
             let updatedDislikes = postData.dislikes;
 
@@ -129,7 +123,6 @@ const CommunityScreen = ({ route }) => {
                     updatedLikes++;
                     likedBy.push(auth.currentUser.uid);
 
-                    // Remove user from dislikedBy array if previously disliked
                     if (userDisliked) {
                         updatedDislikes--;
                         dislikedBy.splice(dislikedBy.indexOf(auth.currentUser.uid), 1);
@@ -143,7 +136,6 @@ const CommunityScreen = ({ route }) => {
                     updatedDislikes++;
                     dislikedBy.push(auth.currentUser.uid);
 
-                    // Remove user from likedBy array if previously liked
                     if (userLiked) {
                         updatedLikes--;
                         likedBy.splice(likedBy.indexOf(auth.currentUser.uid), 1);
@@ -154,7 +146,6 @@ const CommunityScreen = ({ route }) => {
                 }
             }
 
-            // Update data in the database
             await updateDoc(postRef, {
                 likes: updatedLikes,
                 dislikes: updatedDislikes,
@@ -162,9 +153,7 @@ const CommunityScreen = ({ route }) => {
                 dislikedBy,
             });
 
-            // เมื่อกดที่โพสต์ ให้เก็บรายละเอียดโพสต์ที่เลือกไว้
             setSelectedPostDetails(postData);
-
         } catch (error) {
             console.error('Error updating like count:', error.message);
         }
@@ -181,6 +170,36 @@ const CommunityScreen = ({ route }) => {
         }
     };
 
+    const handleCreateCalendar = () => {
+        navigation.navigate('CreateCalendar', { communityId: communityId });
+    };
+
+    const handleShowCalendar = () => {
+        navigation.navigate('CalendarCommunity', { communityId });
+    };
+
+    useEffect(() => {
+        if (selectedPostDetails) {
+            const createdBy = selectedPostDetails.createdBy;
+            handleSelectUser(createdBy);
+        }
+    }, [selectedPostDetails]);
+
+    const handleSelectUser = async (userId) => {
+        try {
+            const userDoc = await getDoc(doc(db, 'users', userId));
+            const userData = userDoc.data();
+            setSelectedUser(userData);
+            setPartnerUid(userId);
+        } catch (error) {
+            console.error('Error fetching user data:', error.message);
+        }
+    };
+
+    const handleCreateChatRoom = (partnerUid) => {
+        navigation.navigate('Chat', { partnerId: partnerUid });
+    };    
+
     return (
         <View style={communityStyles.container}>
             <TouchableOpacity style={communityStyles.inputContainer} onPress={() => setCreatePostModalVisible(true)}>
@@ -189,6 +208,12 @@ const CommunityScreen = ({ route }) => {
                 </Text>
                 <TouchableOpacity onPress={() => setCreatePostModalVisible(true)}>
                     <Text>Create Post</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={communityStyles.createCalendarButton} onPress={() => handleCreateCalendar()}>
+                    <Text style={communityStyles.createCalendarButtonText}>Create Calendar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={communityStyles.createCalendarButton} onPress={() => handleShowCalendar()}>
+                    <Text style={communityStyles.createCalendarButtonText}>View Calendar</Text>
                 </TouchableOpacity>
             </TouchableOpacity>
 
@@ -199,11 +224,19 @@ const CommunityScreen = ({ route }) => {
                         style={communityStyles.postContainer}
                         onPress={() => {
                             setSelectedPostDetails(post);
-                            refreshPostData(); // หากคุณต้องการรีเฟรชข้อมูลโพสต์เมื่อกดที่โพสต์
+                            refreshPostData();
                         }}
                     >
                         <View>
-                            <Text style={communityStyles.postTitle}>{post.createdByName}</Text>
+                            <Text
+                                style={communityStyles.postTitle}
+                                onPress={() => {
+                                    handleSelectUser(post.createdBy);
+                                    setUserDetailsModalVisible(true);
+                                }}
+                            >
+                                {post.createdByName}
+                            </Text>
                             {auth.currentUser.uid === post.createdBy && (
                                 <Pressable
                                     onPress={() => {
@@ -217,14 +250,16 @@ const CommunityScreen = ({ route }) => {
                             )}
                         </View>
                         <Text>{post.content}</Text>
-                        <Pressable onPress={() => handleLikePost(post.id, true)}>
-                            <Icon name="thumb-up" size={20} color="green" />
-                            <Text>{post.likes} Likes</Text>
-                        </Pressable>
-                        <Pressable onPress={() => handleLikePost(post.id, false)}>
-                            <Icon name="thumb-down" size={20} color="red" />
-                            <Text>{post.dislikes} Dislikes</Text>
-                        </Pressable>
+                        <View style={communityStyles.likeDislikeContainer}>
+                            <TouchableOpacity onPress={() => handleLikePost(post.id, true)} style={communityStyles.likeButton}>
+                                <Icon name="thumb-up" size={20} color="green" />
+                                <Text style={communityStyles.likeDislikeText}>{post.likes} Likes</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleLikePost(post.id, false)} style={communityStyles.dislikeButton}>
+                                <Icon name="thumb-down" size={20} color="red" />
+                                <Text style={communityStyles.likeDislikeText}>{post.dislikes} Dislikes</Text>
+                            </TouchableOpacity>
+                        </View>
                     </Pressable>
                 ))}
             </ScrollView>
@@ -248,6 +283,13 @@ const CommunityScreen = ({ route }) => {
                 onClose={() => setSelectedPostDetails(null)}
                 refreshPostData={refreshPostData}
                 communityId={communityId}
+            />
+            <UserDetailsModal
+                visible={isUserDetailsModalVisible}
+                userDetails={selectedUser}
+                partnerUid={partnerUid}
+                onClose={() => setUserDetailsModalVisible(false)}
+                handleCreateChatRoom={handleCreateChatRoom}
             />
         </View>
     );

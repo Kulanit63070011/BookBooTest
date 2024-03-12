@@ -77,7 +77,7 @@ const MyCommunityScreen = () => {
     <View style={signUpStyles.container}>
       <SafeAreaView>
         <View style={signUpStyles.titleContainer}>
-          <Text style={allCommunityStyles.title}>ชุมชนของฉัน</Text>
+          <Text style={allCommunityStyles.title}>My Community</Text>
         </View>
       </SafeAreaView>
       <View style={[allCommunityStyles.contentContainer]}>

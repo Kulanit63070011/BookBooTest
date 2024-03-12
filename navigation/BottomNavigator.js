@@ -8,19 +8,19 @@ const BottomNavigator = () => {
         <View style={styles.container}>
             <Pressable style={styles.navItem} onPress={() => navigation.navigate('AllCommunity')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
-                <Text style={styles.navText}>หาปาร์ตี้</Text>
+                <Text style={styles.navText}>Community</Text>
             </Pressable>
             <Pressable style={styles.navItem} onPress={() => navigation.navigate('MyCommunity')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
-                <Text style={styles.navText}>ปาร์ตี้ของฉัน</Text>
+                <Text style={styles.navText}>Market</Text>
             </Pressable>
-            <Pressable style={styles.navItem} onPress={() => navigation.navigate('Community')}>
+            <Pressable style={styles.navItem} onPress={() => navigation.navigate('AllChat')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
-                <Text style={styles.navText}>แชท</Text>
+                <Text style={styles.navText}>Chat</Text>
             </Pressable>
             <Pressable style={styles.navItem} onPress={() => navigation.navigate('MyProfile')}>
                 <Image source={require('../assets/images/human.png')} style={styles.icon} />
-                <Text style={styles.navText}>โปรไฟล์</Text>
+                <Text style={styles.navText}>Profile</Text>
             </Pressable>
         </View>
     );
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: 'white',
         fontSize: 14,
+        fontWeight: 'bold',
     },
 });
 

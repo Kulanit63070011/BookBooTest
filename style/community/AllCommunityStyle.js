@@ -5,6 +5,7 @@ import { themeColors } from '../../theme';
 export const allCommunityStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   title: {
     color: 'white',
@@ -60,7 +61,7 @@ export const allCommunityStyles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    backgroundColor: '#F1F1EE',
+    backgroundColor: 'white',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },

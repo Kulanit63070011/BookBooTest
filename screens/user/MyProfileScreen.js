@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { myProfileStyles } from '../../style/user/MyProfileStyle';
+import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
 import { auth } from '../../backend/firebase';
 import { getDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { updateDoc } from 'firebase/firestore';
+import { Divider } from 'react-native-elements';
+import BottomNavigator from '../../navigation/BottomNavigator';
 
 const MyProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -111,18 +114,20 @@ const MyProfileScreen = ({ navigation }) => {
 
   return (
     <View style={myProfileStyles.container}>
-      <View style={myProfileStyles.profileContainer}>
-        {/* <Image style={myProfileStyles.profileImage} /> */}
-        <Text style={myProfileStyles.displayName}>{user.displayName}</Text>
-        <Text style={myProfileStyles.email}>{user.email}</Text>
-        <Text style={myProfileStyles.aboutMe}>{user.aboutMe}</Text>
+      <View style={[myProfileStyles.profileContainer, myProfileStyles.shadow]}>
+        <Image source={require('../../assets/images/human.png')} style={myProfileStyles.profileImage} />
       </View>
-      <Pressable style={myProfileStyles.editProfileButton} onPress={handleEditProfile}>
-        <Text>Edit Profile</Text>
+      <Text style={myProfileStyles.displayName}>{user.displayName}</Text>
+      <Divider style={{ backgroundColor: 'grey', height: 1, width: '80%', marginVertical: 10}} />
+      <Text style={myProfileStyles.email}>{user.email}</Text>
+      <Text style={myProfileStyles.aboutMe}>{user.aboutMe}</Text>
+      <Pressable style={myProfileStyles.greyButton} onPress={handleEditProfile}>
+        <Text style={[myProfileStyles.buttonText, { color: '#4542C1' }]}>✏️Edit Profile</Text>
       </Pressable>
-      <Pressable style={myProfileStyles.logoutButton} onPress={handleLogout}>
-        <Text>Logout</Text>
+      <Pressable style={myProfileStyles.greyButton} onPress={handleLogout}>
+        <Text style={[myProfileStyles.buttonText, { color: '#FD1919' }]}>Logout</Text>
       </Pressable>
+      <BottomNavigator style={myBookShelfStyles.bottomNavigator} />
     </View>
   );
 };

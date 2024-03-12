@@ -27,14 +27,15 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
     <Modal transparent={true} animationType="slide" visible={visible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <View style={styles.topBar}>
+          <View style={[styles.topBar]}>
+            <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', fontSize: 25 }}>Edit My Book</Text>
             <Pressable onPress={onClose} style={[styles.closeButton, { userSelect: 'none' }]}>
               <Icon name="close" size={30} color="white" />
             </Pressable>
           </View>
           <ScrollView>
             <View style={styles.formContainer}>
-              <Image source={require('../../assets/images/human.png')} style={{ width: 200, height: 200 }} />
+              <Image source={require('../../assets/images/bookcover.png')} style={styles.modalImage} />
               <Text style={styles.label}>Book Title:</Text>
               <TextInput
                 style={styles.input}
@@ -68,16 +69,19 @@ const BookDetailsModal = ({ visible, bookDetails, onClose, onDelete, onSave }) =
               />
             </View>
           </ScrollView>
-          <Pressable onPress={handleSave} style={[styles.actionButton, { userSelect: 'auto' }]}>
-            <Text style={styles.buttonText}>Save</Text>
-          </Pressable>
-          <Pressable onPress={onDelete} style={[styles.actionButton, { backgroundColor: 'red', userSelect: 'auto' }]}>
-            <Text style={styles.buttonText}>Delete</Text>
-          </Pressable>
+          <View style={styles.bottomBar}>
+            <Pressable onPress={handleSave} style={[styles.actionButton, { userSelect: 'auto', marginRight: 10 }]}>
+              <Text style={{ color: '#4542C1' }}>Save</Text>
+            </Pressable>
+            <Pressable onPress={onDelete} style={[styles.actionButton, { backgroundColor: 'red', userSelect: 'auto' }]}>
+              <Text style={styles.buttonText}>Delete</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>
   );
+
 };
 
 const styles = StyleSheet.create({
@@ -88,19 +92,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: '#FD1919',
     borderRadius: 10,
     width: '80%',
     maxHeight: '80%',
     overflow: 'hidden',
   },
   topBar: {
-    padding: 20,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center',
   },
   closeButton: {
-    backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
   },
@@ -112,27 +119,45 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
+    borderRadius: 15,
     marginBottom: 10,
     paddingLeft: 5,
     color: 'black',
+    backgroundColor: 'white'
   },
   actionButton: {
-    backgroundColor: 'blue',
+    backgroundColor: 'white',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 15,
     marginTop: 10,
     alignItems: 'center',
+    width: '45%'
   },
   buttonText: {
     color: 'white',
     textAlign: 'center',
     fontSize: 16,
+  },
+  modalImage: {
+    width: 150,
+    height: 200,
+    resizeMode: 'cover',
+    borderRadius: 10,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  bottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4542C1',
+    paddingVertical: 10,
   },
 });
 

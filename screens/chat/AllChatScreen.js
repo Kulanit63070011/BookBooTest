@@ -6,6 +6,7 @@ import { allCommunityStyles } from '../../style/community/AllCommunityStyle';
 import CommuColumnOfCards from '../../components/Community/CommuColumnOfCards';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import UserDetailsModal from '../../components/User/UserDetailsModal';
+import { auth, db, collection, query, getDocs, where, getAuth } from '../../backend/firebase';
 
 const AllChatScreen = () => {
   const navigation = useNavigation();

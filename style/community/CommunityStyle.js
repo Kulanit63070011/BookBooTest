@@ -36,6 +36,23 @@ const communityStyles = StyleSheet.create({
         top: 0,
         right: 0,
     },
+    likeDislikeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    likeButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    dislikeButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    likeDislikeText: {
+        marginLeft: 5,
+    },
 });
 
 export default communityStyles;

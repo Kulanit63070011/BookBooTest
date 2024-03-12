@@ -7,7 +7,6 @@ export const WelcomeStyle = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   titleContainer: {
     flexDirection: 'row',
@@ -15,7 +14,7 @@ export const WelcomeStyle = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: 48,
+    fontSize: 58,
     fontWeight: 'bold',
   },
   imageContainer: {
@@ -23,8 +22,8 @@ export const WelcomeStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 350,
-    height: 350,
+    width: 450,
+    height: 450,
   },
   buttonContainer: {
     marginTop: 20,

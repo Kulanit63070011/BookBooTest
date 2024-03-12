@@ -7,8 +7,10 @@ import BookDetailsModal from '../../components/BookShelf/BookDetailsModal';
 import BookColumnOfCards from '../../components/BookShelf/BookColumnOfCards';
 import { myBookShelfStyles } from '../../style/bookshelf/MyBookShelfStyle';
 import { signUpStyles } from '../../style/user/SignUpStyle';
+import { allCommunityStyles } from '../../style/community/AllCommunityStyle';
 import { auth, db } from '../../backend/firebase';
-import { collection, getDocs, query, where, doc, getDoc, setDoc } from 'firebase/firestore';
+import SearchBar from '../../components/common/searchBar';
+import { collection, getDocs, query, where, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 const MyBookShelfScreen = () => {
   const navigation = useNavigation();
@@ -64,39 +66,45 @@ const MyBookShelfScreen = () => {
       if (user) {
         const userBookshelfRef = doc(db, 'bookshelves', user.uid);
         const bookshelfSnap = await getDoc(userBookshelfRef);
-  
+
         if (bookshelfSnap.exists()) {
           const bookshelfData = bookshelfSnap.data();
           let booksInBookshelf = bookshelfData.books || [];
-  
-          // สร้างรายการใหม่โดยเฉพาะสำหรับหนังสือที่มีการเปลี่ยนแปลง
+
+          // อัปเดตข้อมูลเฉพาะหนังสือที่ตรงกับ bookId
           const updatedBooks = booksInBookshelf.map(book => {
             if (book.id === bookId) {
               return { ...book, ...updatedDetails };
             }
             return book;
           });
-  
-          // อัปเดตหนังสือเฉพาะที่มีการเปลี่ยนแปลงใน Firestore
-          await setDoc(userBookshelfRef, { books: updatedBooks }, { merge: true });
+
+          // อัปเดตข้อมูลหนังสือใน Firestore
+          await updateDoc(userBookshelfRef, { books: updatedBooks });
+
+          // อัปเดตสถานะหนังสือในแอปพลิเคชัน
           setBooks(updatedBooks);
+
+          alert('Book updated successfully');
         } else {
           console.log('User bookshelf not found');
         }
       }
     } catch (error) {
       console.error('Error saving book changes:', error.message);
+      throw error;
     }
   };
-  
+
   return (
     <View style={signUpStyles.container}>
       <SafeAreaView>
         <View style={signUpStyles.titleContainer}>
-          <Text style={myBookShelfStyles.title}>ชั้นหนังสือ</Text>
+          <Text style={allCommunityStyles.title}>Bookshelf</Text>
         </View>
       </SafeAreaView>
       <View style={[myBookShelfStyles.contentContainer]}>
+        <SearchBar/>
         <ScrollView>
           <View style={{ userSelect: 'none' }} >
             {Array.isArray(books) && books.length > 0 ? (

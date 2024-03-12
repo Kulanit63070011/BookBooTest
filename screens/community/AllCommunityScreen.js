@@ -9,6 +9,7 @@ import CommunityDetailsModal from '../../components/Community/CommunityDetailsMo
 import FloatingButton from '../../components/common/FloatingAddButton';
 import BottomNavigator from '../../navigation/BottomNavigator';
 import SearchBar from '../../components/common/searchBar';
+import { signUpStyles } from '../../style/user/SignUpStyle';
 
 const AllCommunityScreen = () => {
   const navigation = useNavigation();
@@ -60,10 +61,10 @@ const AllCommunityScreen = () => {
   }, [isFocused]);
 
   return (
-    <View style={allCommunityStyles.container}>
+    <View style={signUpStyles.container}>
       <SafeAreaView>
-        <View style={allCommunityStyles.titleContainer}>
-          <Text style={allCommunityStyles.title}>ค้นหาชุมชน</Text>
+        <View style={signUpStyles.titleContainer}>
+          <Text style={allCommunityStyles.title}>Community</Text>
         </View>
       </SafeAreaView>
       <View style={allCommunityStyles.contentContainer}>
